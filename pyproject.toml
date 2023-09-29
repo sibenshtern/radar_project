@@ -1,0 +1,11 @@
+[project]
+requires-python = ">=3.9"
+
+[tool.ruff]
+select = [
+    "E",
+    "F",
+    "UP"
+]
+line-length = 79
+exclude=['__init__.py']
