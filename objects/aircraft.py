@@ -24,7 +24,6 @@ class AerialObject:
         self.__making_maneuver = True
 
     def update(self, dt: float = 1.0) -> None:
-        # TODO: write maneuver doing
         self.position += self.speed * dt + (self.acceleration * dt ** 2) / 2
         self.speed += self.acceleration * dt
 
@@ -35,15 +34,17 @@ class AerialObject:
 
     def __str__(self):
         return (f"AerialObject(name: {self.name}, "
-                f"position: {str(self.position)} speed: {str(self.speed)}, "
+                f"position: {str(self.position)}, speed: {str(self.speed)}, "
                 f"acceleration: {str(self.acceleration)})")
 
     def __repr__(self):
-        return f"AerialObject({self.name}, {self.speed}, {self.acceleration})"
+        return (f"AerialObject({self.name}, {self.position}, {self.speed}, "
+                f"{self.acceleration})")
 
 
 if __name__ == "__main__":
     obj = AerialObject("helicopter", Coordinates3D(0, 0, 0),
                        Vector3D(1, 1, 0), Vector3D(0, 0, 0))
+    print(obj)
 
 
