@@ -14,6 +14,9 @@ class Vector:
     def __iadd__(self, other):
         pass
 
+    def __rsub__(self, other):
+        pass
+
     def __sub__(self, other):
         pass
 
@@ -59,7 +62,7 @@ class Vector3D(Vector):
         self.z += other.z
         return self
 
-    def __rdiv__(self, other):
+    def __rsub__(self, other):
         return Vector3D(other.x - self.x, other.y - self.y, other.z - self.z)
 
     def __sub__(self, other):
@@ -83,6 +86,9 @@ class Vector3D(Vector):
         self.z *= other
         return self
 
+    def __rmul__(self, other: Union[int, float]):
+        return self.__mul__(other)
+
     def __truediv__(self, other: Union[int, float]):
         return Vector3D(self.x / other, self.y / other, self.z / other)
 
@@ -100,3 +106,30 @@ class Vector3D(Vector):
 
     def __repr__(self) -> str:
         return f"Vector3D({self.x}, {self.y}, {self.z})"
+
+
+class VectorGCS(Vector3D):
+
+    def __init__(self, x: float, y: float, z: float):
+        super().__init__(x * Vector3D(1, 0, 0),
+                         y * Vector3D(0, 1, 0),
+                         z * Vector3D(0, 0, 1))
+
+    def __str__(self) -> str:
+        return f"VectorGCS(x: {str(self.x)}, y: {str(self.y)}, z: {str(self.z)})"
+
+    def __repr__(self) -> str:
+        result = self.x + self.y + self.z
+        return f"VectorGCS({result.x}, {result.y}, {result.z})"
+
+
+class VectorLECS(Vector):
+
+    def __init__(self, longitude: float, latitude: float, height: float):
+        super().__init__()
+        if not (-180 < longitude <= 180 and -90 < latitude <= 90):
+            raise ValueError("Wrong values of longitude and latitude.")
+
+        self.longitude: float = longitude
+        self.latitude: float = latitude
+        self.height: float = height
