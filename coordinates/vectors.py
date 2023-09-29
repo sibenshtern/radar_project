@@ -116,7 +116,8 @@ class VectorGCS(Vector3D):
                          z * Vector3D(0, 0, 1))
 
     def __str__(self) -> str:
-        return f"VectorGCS(x: {str(self.x)}, y: {str(self.y)}, z: {str(self.z)})"
+        return (f"VectorGCS(x: {str(self.x)}, y: {str(self.y)}, "
+                f"z: {str(self.z)})")
 
     def __repr__(self) -> str:
         result = self.x + self.y + self.z

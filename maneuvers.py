@@ -1,8 +1,6 @@
 from copy import deepcopy
-from typing import Union
-from abc import ABC, abstractmethod
 
-from coordinates import Vector, Coordinates, Vector3D, Coordinates3D
+from coordinates import Vector, Vector3D
 
 
 class Maneuver:
@@ -26,7 +24,6 @@ class CenterFold(Maneuver):
 
     def prepare(self):
         pass
-
     def finish(self):
         pass
 
