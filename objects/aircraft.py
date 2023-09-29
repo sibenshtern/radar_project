@@ -1,4 +1,4 @@
-from typing import Optional, Any
+from typing import Optional
 from copy import deepcopy
 
 from coordinates import Vector, Coordinates, Vector3D, Coordinates3D
