@@ -1,11 +1,11 @@
 from typing import Optional
 from copy import deepcopy
 
-from coordinates import Vector, Coordinates, Vector3D, Coordinates3D
-from maneuvers import Maneuver, ChangeHeight, ChangeSpeed, CenterFold
+from coordinates import Vector, Coordinates
+from objects.maneuvers import Maneuver, ChangeHeight, ChangeSpeed, CenterFold
 
 
-class AerialObject:
+class Aircraft:
 
     def __init__(self, name: str, position: Coordinates, speed: Vector,
                  acceleration: Vector):
@@ -16,23 +16,26 @@ class AerialObject:
 
         self.__trajectory: list[Coordinates] = [deepcopy(position)]
 
-        self.__current_maneuver: Optional[Maneuver, CenterFold,
-                                          ChangeHeight, ChangeSpeed] = None
+        self.__current_maneuvers: list[Optional[Maneuver, CenterFold, ChangeHeight, ChangeSpeed]] = []
         self.__making_maneuver: bool = False
 
     def make_maneuver(self, maneuver: Maneuver):
-        self.__current_maneuver = maneuver
-        self.__making_maneuver = True
-        self.__current_maneuver.prepare()
+        self.__current_maneuvers.append(maneuver)
+        self.__current_maneuvers[-1].prepare()
 
     def update(self, dt: float = 1.0) -> None:
-        if self.__making_maneuver and self.__current_maneuver is not None:
-            self.__current_maneuver.do()
+        for_deletion = []
 
-        if self.__current_maneuver is not None and \
-                self.__current_maneuver.is_finished:
-            self.__current_maneuver = None
-            self.__making_maneuver = False
+        # TODO: make better this code
+        for i in range(len(self.__current_maneuvers)):
+            if self.__current_maneuvers[i].is_finished:
+                for_deletion.append(i)
+            else:
+                self.__current_maneuvers[i].do()
+
+        for index in for_deletion:
+            self.__current_maneuvers.pop(index)
+        # this code
 
         self.position += self.speed * dt + (self.acceleration * dt ** 2) / 2
         self.speed += self.acceleration * dt
@@ -50,17 +53,3 @@ class AerialObject:
     def __repr__(self):
         return (f"AerialObject({self.name}, {self.position}, {self.speed}, "
                 f"{self.acceleration})")
-
-
-if __name__ == "__main__":
-    obj = AerialObject("helicopter", Coordinates3D(0, 0, 0),
-                       Vector3D(1, 1, 0), Vector3D(0, 0, 0))
-    change_height = ChangeSpeed(10, obj, Vector3D(10, 10, 0))
-
-    for i in range(20):
-        obj.update()
-        print(f"{i}:\t{obj}")
-        if i == 5:
-            obj.make_maneuver(change_height)
-
-
