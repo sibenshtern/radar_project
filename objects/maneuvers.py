@@ -12,9 +12,17 @@ class Maneuver:
         self.duration = duration
         self.obj = obj
         self.is_finished = False
+        self.current_time = 0
 
     def prepare(self):
         pass
+
+    def do(self):
+        self.current_time += 1
+
+        if self.current_time >= self.duration:
+            self.finish()
+            self.is_finished = True
 
     def finish(self):
         pass
@@ -24,6 +32,7 @@ class CenterFold(Maneuver):
 
     def prepare(self):
         pass
+
     def finish(self):
         pass
 
@@ -42,13 +51,6 @@ class ChangeHeight(Maneuver):
         if isinstance(self.obj.speed, Vector3D):
             self.obj.speed.z = self.speed_z
 
-    def do(self):
-        self.current_time += 1
-
-        if self.current_time >= self.duration:
-            self.finish()
-            self.is_finished = True
-
     def finish(self) -> None:
         self.obj.speed = deepcopy(self.__previous_speed)
 
@@ -61,15 +63,12 @@ class ChangeSpeed(Maneuver):
 
         super().__init__(duration, obj)
         self.new_speed = deepcopy(new_speed)
+        self.acceleration = deepcopy(obj.acceleration)
 
     def prepare(self):
-        self.obj.speed = deepcopy(self.new_speed)
-        self.finish()
-        self.is_finished = True
-
-    def do(self):
-        pass
+        new_acceleration = (self.new_speed - self.obj.speed) / self.duration
+        self.obj.acceleration = deepcopy(new_acceleration)
 
     def finish(self):
-        pass
+        self.obj.acceleration = deepcopy(self.acceleration)
 
