@@ -4,8 +4,10 @@ if __name__ == "__main__":
 
     import matplotlib.pyplot as plt
 
-    from . import Aircraft, ChangeSpeed, ChangeHeight
+    from aircraft import Aircraft, ChangeSpeed, ChangeHeight
     from coordinates import Vector3D, Coordinates3D, Coordinates, Vector
+    from modeling import Scene
+    from radar import Radar
 
     def uncompress(data: list[Union[Vector, Coordinates]]) -> \
             tuple[list, list, list]:
@@ -22,26 +24,17 @@ if __name__ == "__main__":
         return x, y, z
 
 
-    obj = Aircraft("helicopter", Coordinates3D(0, 0, 0),
-                   Vector3D(1, 1, 0), Vector3D(0, 0, 0))
-    change_speed = ChangeSpeed(10, obj, Vector3D(10, 10, 0))
-    change_height = ChangeHeight(10, obj, 15)
+    obj = Aircraft("helicopter", Coordinates3D(50, 0, 0),
+                   Vector3D(0, 0, 0), Vector3D(0, 0, 0))
 
     speeds = [deepcopy(obj.speed)]
     accelerations = [deepcopy(obj.acceleration)]
 
-    CHANGE_SPEED_TIME = 5
-    CHANGE_HEIGHT_TIME = 10
+    scene = Scene(Radar(), [obj], list(), 100)
 
-    for time in range(25):
-        obj.update()
-        speeds.append(deepcopy(obj.speed))
-        accelerations.append(deepcopy(obj.acceleration))
-
-        if time == CHANGE_SPEED_TIME:
-            obj.make_maneuver(change_speed)
-        if time == CHANGE_HEIGHT_TIME:
-            obj.make_maneuver(change_height)
+    for i in range(scene.duration):
+        scene.update()
+        print("-")
 
     fig, (ax1, ax2, ax3) = plt.subplots(1, 3, subplot_kw={"projection": "3d"})
     ax1.scatter(*uncompress(speeds))
