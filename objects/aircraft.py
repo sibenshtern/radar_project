@@ -14,6 +14,8 @@ class Aircraft:
         self.speed: Vector = deepcopy(speed)
         self.acceleration: Vector = deepcopy(acceleration)
 
+        self.centerfold_radius: float = 10
+
         self.__trajectory: list[Coordinates] = [deepcopy(position)]
 
         self.__current_maneuvers: list[Optional[Maneuver, CenterFold,

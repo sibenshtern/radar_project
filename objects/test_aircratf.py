@@ -4,7 +4,7 @@ if __name__ == "__main__":
 
     import matplotlib.pyplot as plt
 
-    from . import Aircraft, ChangeSpeed, ChangeHeight
+    from aircraft import Aircraft, ChangeSpeed, ChangeHeight
     from coordinates import Vector3D, Coordinates3D, Coordinates, Vector
 
     def uncompress(data: list[Union[Vector, Coordinates]]) -> \
@@ -33,7 +33,9 @@ if __name__ == "__main__":
     CHANGE_SPEED_TIME = 5
     CHANGE_HEIGHT_TIME = 10
 
-    for time in range(25):
+    DURATION = 25
+
+    for time in range(DURATION):
         obj.update()
         speeds.append(deepcopy(obj.speed))
         accelerations.append(deepcopy(obj.acceleration))
@@ -43,15 +45,23 @@ if __name__ == "__main__":
         if time == CHANGE_HEIGHT_TIME:
             obj.make_maneuver(change_height)
 
-    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, subplot_kw={"projection": "3d"})
-    ax1.scatter(*uncompress(speeds))
-    ax1.set_title("Speed")
+    fig1 = plt.figure(1, figsize=(3, 3), dpi=500)
+    ax_3d = fig1.add_subplot(projection='3d')
 
-    ax2.scatter(*uncompress(accelerations))
-    ax2.set_title("Acceleration")
+    fig2 = plt.figure(2, figsize=(3, 3), dpi=500)
+    ax_speed = fig2.add_subplot()
 
-    ax3.scatter(*uncompress(obj.get_trajectory()))
-    ax3.set_title("Trajectory")
+    fig3 = plt.figure(3, figsize=(3, 3), dpi=500)
+    ax_acceleration = fig3.add_subplot()
+
+    ax_speed.plot([abs(x) for x in speeds], range(DURATION + 1))
+    ax_speed.set_title("Speed")
+
+    ax_acceleration.plot([abs(x) for x in accelerations], range(DURATION + 1))
+    ax_acceleration.set_title("Acceleration")
+
+    ax_3d.plot(*uncompress(obj.get_trajectory()))
+    ax_3d.set_title("Trajectory")
 
     plt.show()
 
