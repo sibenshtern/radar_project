@@ -16,7 +16,8 @@ class Aircraft:
 
         self.__trajectory: list[Coordinates] = [deepcopy(position)]
 
-        self.__current_maneuvers: list[Optional[Maneuver, CenterFold, ChangeHeight, ChangeSpeed]] = []
+        self.__current_maneuvers: list[Optional[Maneuver, CenterFold,
+                                       ChangeHeight, ChangeSpeed]] = []
         self.__making_maneuver: bool = False
 
     def make_maneuver(self, maneuver: Maneuver):
