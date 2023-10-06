@@ -15,14 +15,25 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtOpenGLWidgets import QOpenGLWidget
 from PySide6.QtWidgets import (QApplication, QListView, QPushButton, QSizePolicy,
     QWidget, QDialog)
 
 from ui_dialog import Ui_Dialog
 from ui_maneuver import Ui_Maneuver
 from ui_settings import Ui_Settings
+from myglwidget import MyWidget
 
-from myglwidget import MyGLWidget
+import sys
+
+
+class object():
+    speed = 0
+    object_name = ''
+
+    def init(self, speed):
+        self.speed = speed
+        self.object_name = f'объект - { self.speed }'
 
 class Ui_Widget(object):
     def setupUi(self, Widget):
@@ -30,40 +41,47 @@ class Ui_Widget(object):
             Widget.setObjectName(u"Widget")
         Widget.resize(800, 600)
         Widget.setMaximumSize(QSize(800, 16777215))
-
         self.addButton = QPushButton(Widget)
         self.addButton.setObjectName(u"addButton")
         self.addButton.setGeometry(QRect(40, 40, 171, 41))
-
+        self.addButton.setMouseTracking(False)
+        self.addButton.setCheckable(False)
+        self.addButton.setChecked(False)
+        self.addButton.setAutoDefault(False)
+        self.addButton.setFlat(False)
         self.modelButton = QPushButton(Widget)
         self.modelButton.setObjectName(u"modelButton")
         self.modelButton.setGeometry(QRect(40, 510, 171, 41))
-
+        self.modelButton.setCheckable(False)
+        self.modelButton.setChecked(False)
         self.settingsButton = QPushButton(Widget)
         self.settingsButton.setObjectName(u"settingsButton")
         self.settingsButton.setGeometry(QRect(40, 410, 171, 41))
-
-        self.openGLWidget = MyGLWidget(Widget)
+        self.settingsButton.setCheckable(False)
+        #self.openGLWidget = QOpenGLWidget(Widget)
+        self.openGLWidget = MyWidget()
         self.openGLWidget.setObjectName(u"openGLWidget")
         self.openGLWidget.setGeometry(QRect(249, 39, 501, 511))
-
         self.listView = QListView(Widget)
         self.listView.setObjectName(u"listView")
         self.listView.setGeometry(QRect(40, 100, 171, 291))
-
         self.settingsButton_2 = QPushButton(Widget)
         self.settingsButton_2.setObjectName(u"settingsButton_2")
         self.settingsButton_2.setGeometry(QRect(40, 460, 171, 41))
-
+        self.settingsButton_2.setCheckable(False)
         QWidget.setTabOrder(self.addButton, self.listView)
         QWidget.setTabOrder(self.listView, self.settingsButton)
         QWidget.setTabOrder(self.settingsButton, self.modelButton)
 
         self.retranslateUi(Widget)
+        self.settingsButton_2.clicked.connect(self.openGLWidget.repaint)
+
+        self.addButton.setDefault(False)
 
         self.addButton.clicked.connect(self.open_dialog)
         self.settingsButton_2.clicked.connect(self.open_maneuver)
         self.settingsButton.clicked.connect(self.open_settings)
+        self.modelButton.clicked.connect(self.start_model)
 
         QMetaObject.connectSlotsByName(Widget)
     # setupUi
@@ -73,6 +91,7 @@ class Ui_Widget(object):
         ui = Ui_Dialog()
         ui.setupUi(Dialog)
         Dialog.show()
+
         Dialog.exec_()
 
 
@@ -90,6 +109,8 @@ class Ui_Widget(object):
         Dialog.show()
         Dialog.exec_()
 
+    def start_model(self):
+        self.openGLWidget.show()
 
     def retranslateUi(self, Widget):
         Widget.setWindowTitle(QCoreApplication.translate("Widget", u"Widget", None))

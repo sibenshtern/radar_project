@@ -1,28 +1,48 @@
-# This Python file uses the following encoding: utf-8
-import pygame.Color as color
+import sys
 
+from OpenGL import GL as gl
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QApplication
 from PySide6.QtOpenGLWidgets import QOpenGLWidget
 
-class MyGLWidget(QOpenGLWidget):
+
+class MyWidget(QOpenGLWidget):
+
     def __init__(self):
         super().__init__()
+        self.setWindowTitle("PyQt5, OpenGL 3.3")
+        self.resize(700, 400)
 
-    def initializeGL():
+    def initializeGL(self):
+        gl.glClearColor(0.0, 0.0, 0.0, 1)
 
-        # Set up the rendering context, load shaders and other resources, etc.:
-        f = QOpenGLContext.currentContext().functions()
-        f.glClearColor(color("#98f5ff"))
+    def iterate(self):
+        gl.glViewport(0, 0, 500, 500)
+        gl.glMatrixMode(gl.GL_PROJECTION)
+        gl.glLoadIdentity()
+        gl.glOrtho(0.0, 500, 0.0, 500, 0.0, 1.0)
+        gl.glMatrixMode(gl.GL_MODELVIEW)
+        gl.glLoadIdentity()
 
-    def resizeGL(w, h):
+    def square(self):
+        gl.glColor3f(1.0, 0.0, 3.0)
+        gl.glBegin(gl.GL_QUADS)
+        gl.glVertex2f(100, 100)
+        gl.glVertex2f(200, 100)
+        gl.glVertex2f(200, 200)
+        gl.glVertex2f(100, 200)
+        gl.glEnd()
 
-        # Update projection matrix and other size related settings:
-        m_projection.setToIdentity()
-        m_projection.perspective(45.0f, w / float(h), 0.01f, 100.0f)
-
-    def paintGL():
-        f = QOpenGLContext.currentContext().functions()
-        f.glClear(GL_COLOR_BUFFER_BIT)
+    def paintGL(self):
+        gl.glClear(gl.GL_COLOR_BUFFER_BIT)
+        gl.glLoadIdentity()
+        self.iterate()
+        self.square()
 
 
-# if __name__ == "__main__":
-#     pass
+if __name__ == "__main__":
+    QApplication.setAttribute(Qt.AA_UseDesktopOpenGL)
+    app = QApplication(sys.argv)
+    w = MyWidget()
+    w.show()
+    sys.exit(app.exec())
