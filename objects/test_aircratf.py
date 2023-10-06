@@ -7,7 +7,8 @@ if __name__ == "__main__":
     from . import Aircraft, ChangeSpeed, ChangeHeight
     from coordinates import Vector3D, Coordinates3D, Coordinates, Vector
 
-    def uncompress(data: list[Union[Vector, Coordinates]]) -> tuple[list, list, list]:
+    def uncompress(data: list[Union[Vector, Coordinates]]) -> \
+            tuple[list, list, list]:
         data: list[Union[Vector3D, Coordinates3D]]
 
         x = []
