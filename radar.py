@@ -1,6 +1,7 @@
 from typing import Optional
-from collections import namedtuple
-import signal
+
+from coordinates import Vector
+from signal import Signal
 
 
 class Emitter:
@@ -8,8 +9,8 @@ class Emitter:
     def __init__(self, characteristics: Optional[list] = None):
         self.characteristics: list = characteristics
 
-    def send_signal(self, angle: int, departure_time: int, direction: Coordinates,
-                 speed: Coordinates):
+    def send_signal(self, angle: int, departure_time: int, direction: Vector,
+                 speed: Vector):
         signal = Signal(angle, departure_time, direction, speed) #, beams)
         return signal
 

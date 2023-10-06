@@ -1,7 +1,12 @@
-
+from radar import Radar
+from objects import Aircraft
+from signal import Signal
 
 class CollisionDetector:
     def __init__(self):
         pass
-    def calculate(self, objects, signals, radar): list:
+    def scan_objects(self, signals : list[Signal], objects : list[Aircraft]):
+        pass
+
+    def scan_radar(self, signals : list[Signal], radar : Radar):
         pass
