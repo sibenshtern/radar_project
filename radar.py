@@ -1,6 +1,6 @@
 from typing import Optional
 
-from coordinates import Vector
+from coordinates import Vector, Coordinates3D
 from signal import Signal
 
 
@@ -28,3 +28,6 @@ class Radar:
                  receiver: Receiver = Receiver()) -> None:
         self.emitter: Emitter = emitter
         self.receiver: Receiver = receiver
+        self.range_of_action: int = 80
+        self.direction = Coordinates3D(0, 0, 0)
+        self.radius = 1

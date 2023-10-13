@@ -13,4 +13,8 @@ class Signal:
         self.direction: Vector = direction
         self.speed: Vector = speed
         #self.beams: list[Beam] = beams
+
+    def update(self, new_direction: Vector, new_speed: Vector):
+        self.direction = new_direction
+        self.speed = new_speed
     

@@ -7,11 +7,12 @@ from objects.maneuvers import Maneuver, ChangeHeight, ChangeSpeed, CenterFold
 
 class Aircraft:
 
-    def __init__(self, name: str, position: Coordinates, speed: Vector,
+    def __init__(self, name: str, position: Coordinates, speed: Vector, radius : int,
                  acceleration: Vector):
         self.name: str = name
         self.position: Coordinates = deepcopy(position)
         self.speed: Vector = deepcopy(speed)
+        self.radius: int = radius
         self.acceleration: Vector = deepcopy(acceleration)
 
         self.__trajectory: list[Coordinates] = [deepcopy(position)]
