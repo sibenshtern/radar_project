@@ -1,6 +1,15 @@
 from __future__ import annotations
 
-from .vectors import Vector, Vector3D
-from .coordinates import Coordinates, Coordinates3D
+from .vectors import *
+from .coordinates import *
 
-__all__ = ["Vector", "Vector3D", "Coordinates", "Coordinates3D"]
+__all__ = [
+    "Vector",
+    "Vector3D",
+    "VectorGCS",
+    "VectorLECS",
+    "Coordinates",
+    "Coordinates3D",
+    "CoordinatesGCS",
+    "CoordinatesLECS"
+]
