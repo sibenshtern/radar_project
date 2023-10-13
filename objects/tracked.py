@@ -12,6 +12,3 @@ class Tracked:
 
     def add_position(self, position: Union[Coordinates3D]):
         self.trajectory.append(deepcopy(position))
-
-
-
