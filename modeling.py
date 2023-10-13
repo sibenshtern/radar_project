@@ -20,15 +20,16 @@ class Scene:
             return
         self.time += 1
         if len(self.signals) == 0:
-            v3d = Vector3D(1, 0, 0) 
+            v3d = Vector3D(2, 0, 0)
             sp3d = Vector3D(1, 0, 0)
             signal = self.radar.emitter.send_signal(0, self.time, v3d, sp3d)
             self.signals.append(signal)
         # TODO: rewrite
-        signals_detection_object = self.collision_detector.scan_objects(self.signals, self.objects, self.time)
+        signals_detection_object = self.collision_detector.scan_objects(self.signals, self.objects, self.time, self.radar)
         for signal in signals_detection_object:
             self.signals.remove(signal)
 
         signals_detection_radar = self.collision_detector.scan_radar(self.signals, self.radar, self.time)
         for signal in signals_detection_radar:
             self.signals.remove(signal)
+            print("D")

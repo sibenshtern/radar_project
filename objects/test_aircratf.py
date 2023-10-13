@@ -1,8 +1,5 @@
 if __name__ == "__main__":
-    from typing import Union
-    from copy import deepcopy
-
-    import matplotlib.pyplot as plt
+    import time
 
     from aircraft import Aircraft, ChangeSpeed, ChangeHeight
     from coordinates import Vector3D, Coordinates3D, Coordinates, Vector
@@ -17,3 +14,4 @@ if __name__ == "__main__":
     for i in range(scene.duration):
         scene.update()
         print("-", end="")
+        time.sleep(0.2)
