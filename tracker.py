@@ -7,12 +7,15 @@ from radar import Signal
 C = TypeVar('C', CoordinatesGCS, CoordinatesLECS, Coordinates3D)
 
 EPSILON = 1
+REQUIRED_MINIMUM_TIME = 10
+STOP_TRACKING_TIME = 5
 
 
 class Tracker:
 
     def __init__(self):
         self.objects: list[Tracked] = []
+        self.archive_objects: list[Tracked] = []
 
     def calculate_coordinate(self, signal) -> C:
         return Coordinates3D(0, 0, 0)
@@ -28,3 +31,14 @@ class Tracker:
         else:
             self.objects.append(Tracked(current_time))
             self.objects[-1].trajectory.append(coordinates)
+
+        self.update_objects(current_time)
+
+    def update_objects(self, current_time: int):
+        for obj in self.objects:
+            if current_time - obj.last_tracked_time < STOP_TRACKING_TIME:
+                continue
+
+            if obj.tracked_time >= REQUIRED_MINIMUM_TIME:
+                self.archive_objects.append(obj)
+            self.objects.remove(obj)
