@@ -1,27 +1,32 @@
-from typing import Optional
+from typing import Union, TypeVar
 from copy import deepcopy
 
-from coordinates import Vector, Coordinates
-from objects.maneuvers import Maneuver, ChangeHeight, ChangeSpeed, CenterFold
+from coordinates import (Vector3D, VectorGCS, VectorLECS,
+                         Coordinates3D, CoordinatesGCS, CoordinatesLECS)
+
+import objects.maneuvers as maneuvers
+
+V = TypeVar("V", Vector3D, VectorGCS, VectorLECS)
+C = TypeVar("C", Coordinates3D, CoordinatesGCS, CoordinatesLECS)
+M = TypeVar("M", maneuvers.ChangeHeight,
+            maneuvers.ChangeSpeed, maneuvers.CenterFold)
 
 
 class Aircraft:
 
-    def __init__(self, name: str, position: Coordinates, speed: Vector, radius : int,
-                 acceleration: Vector):
+    def __init__(self, name: str, position: C, speed: V, acceleration: V):
         self.name: str = name
-        self.position: Coordinates = deepcopy(position)
-        self.speed: Vector = deepcopy(speed)
-        self.radius: int = radius
-        self.acceleration: Vector = deepcopy(acceleration)
+        self.position: C = deepcopy(position)
+        self.speed: V = deepcopy(speed)
+        self.acceleration: V = deepcopy(acceleration)
 
-        self.__trajectory: list[Coordinates] = [deepcopy(position)]
+        self.centerfold_radius: float = 10
 
-        self.__current_maneuvers: list[Optional[Maneuver, CenterFold,
-                                       ChangeHeight, ChangeSpeed]] = []
-        self.__making_maneuver: bool = False
+        self.__trajectory: list[C] = [deepcopy(position)]
 
-    def make_maneuver(self, maneuver: Maneuver):
+        self.__current_maneuvers: list[M] = []
+
+    def make_maneuver(self, maneuver: Union[M]):
         self.__current_maneuvers.append(maneuver)
         self.__current_maneuvers[-1].prepare()
 
@@ -44,7 +49,7 @@ class Aircraft:
 
         self.__trajectory.append(deepcopy(self.position))
 
-    def get_trajectory(self) -> list[Coordinates]:
+    def get_trajectory(self) -> list[C]:
         return deepcopy(self.__trajectory)
 
     def __str__(self):
