@@ -23,6 +23,7 @@ class Tracker:
             if abs(obj.trajectory[-1] - coordinates) < EPSILON:
                 obj.trajectory.append(coordinates)
                 obj.last_tracked_time = current_time
-
-        self.objects.append(Tracked())
-        self.objects[-1].trajectory.append(coordinates)
+                break
+        else:
+            self.objects.append(Tracked(current_time))
+            self.objects[-1].trajectory.append(coordinates)

@@ -34,8 +34,21 @@ class Maneuver:
 
 class CenterFold(Maneuver):
 
+    def __init__(self, duration: int, obj: 'aircraft.Aircraft'):
+        super().__init__(duration, obj)
+        self.center_point = deepcopy(self.obj.position) + \
+                                (self.obj.speed / abs(self.obj.speed)) * \
+                                self.obj.centerfold_radius
+
     def prepare(self):
         pass
+
+    def do(self):
+        self.current_time += 1
+
+        if self.current_time >= self.duration:
+            self.finish()
+            self.is_finished = True
 
     def finish(self):
         pass
