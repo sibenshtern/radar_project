@@ -2,6 +2,7 @@ from typing import TypeVar
 
 from objects import Tracked
 from coordinates import Coordinates3D, CoordinatesGCS, CoordinatesLECS
+from radar import Signal
 
 C = TypeVar('C', CoordinatesGCS, CoordinatesLECS, Coordinates3D)
 
@@ -16,7 +17,7 @@ class Tracker:
     def calculate_coordinate(self, signal) -> C:
         return Coordinates3D(0, 0, 0)
 
-    def process_signal(self, signal: 'Signal', current_time: int):
+    def process_signal(self, signal: Signal, current_time: int):
         coordinates = self.calculate_coordinate(signal)
 
         for obj in self.objects:

@@ -1,4 +1,4 @@
-from radar import Radar, Emitter, Receiver
+from radar import Radar
 from objects.aircraft import Aircraft
 from signal import Signal
 from collision_detector import CollisionDetector

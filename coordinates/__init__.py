@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from .vectors import *
-from .coordinates import *
+from .vectors import Vector, Vector3D, VectorGCS, VectorLECS
+from .coordinates import (Coordinates, Coordinates3D, CoordinatesGCS,
+                          CoordinatesLECS)
 
 __all__ = [
     "Vector",

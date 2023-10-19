@@ -2,18 +2,8 @@
 requires-python = ">=3.9"
 
 [tool.ruff]
-<<<<<<< HEAD
-select = [
-    "E",
-    "F",
-    "UP"
-]
-line-length = 79
-exclude=['__init__.py']
-=======
 line-length = 79
 target-version = "py39"
 
 [tool.ruff.extend-per-file-ignores]
 "__init__.py" = ["E402"]
->>>>>>> sibenshtern

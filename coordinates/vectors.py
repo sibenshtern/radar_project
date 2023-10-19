@@ -8,6 +8,9 @@ class Vector:
     def __init__(self):
         pass
 
+    def __neg__(self):
+        pass
+
     def __add__(self, other):
         pass
 
@@ -55,6 +58,12 @@ class Vector3D(Vector):
 
     def __add__(self, other):
         return Vector3D(self.x + other.x, self.y + other.y, self.z + other.z)
+
+    def __neg__(self):
+        self.x = -self.x
+        self.y = -self.y
+        self.z = -self.z
+        return self
 
     def __iadd__(self, other):
         self.x += other.x
