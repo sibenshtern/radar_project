@@ -24,6 +24,9 @@ class Receiver:
         self.radius: int = radius
         self.position: Coordinates = position
 
+    def ab_filter(self, signals: list[Signal]):
+        return signals
+
 
 class Radar:
 
