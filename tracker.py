@@ -9,7 +9,7 @@ C = TypeVar('C', CoordinatesGCS, CoordinatesLECS, Coordinates3D)
 EPSILON = 1
 REQUIRED_MINIMUM_TIME = 10
 STOP_TRACKING_TIME = 5
-
+ /
 
 class Tracker:
 
@@ -17,11 +17,11 @@ class Tracker:
         self.objects: list[Tracked] = []
         self.archive_objects: list[Tracked] = []
 
-    def calculate_coordinate(self, signal) -> C:
+    def calculate_coordinate(self, signals: list[Signal]) -> C:
         return Coordinates3D(0, 0, 0)
 
-    def process_signal(self, signal: Signal, current_time: int):
-        coordinates = self.calculate_coordinate(signal)
+    def process_signal(self, signals: list[Signal], current_time: int):
+        coordinates = self.calculate_coordinate(signals)
 
         for obj in self.objects:
             if abs(obj.trajectory[-1] - coordinates) < EPSILON:

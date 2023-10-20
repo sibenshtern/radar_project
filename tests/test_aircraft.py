@@ -31,7 +31,7 @@ obj = Aircraft("helicopter", Coordinates3D(0, 0, 0),
                Vector3D(1, 1, 0), Vector3D(0, 0, 0))
 change_speed = ChangeSpeed(10, obj, Vector3D(10, 10, 0))
 change_height = ChangeHeight(10, obj, 15)
-centerfold = maneuvers.CenterFold(45, obj)
+centerfold = maneuvers.CenterFold(60, obj)
 
 speeds = [deepcopy(obj.speed)]
 accelerations = [deepcopy(obj.acceleration)]
@@ -48,9 +48,9 @@ for time in range(DURATION):
     accelerations.append(deepcopy(obj.acceleration))
 
     # if time == CHANGE_SPEED_TIME:
-    #     obj.make_maneuver(change_speed)
+    #     object.make_maneuver(change_speed)
     # if time == CHANGE_HEIGHT_TIME:
-    #     obj.make_maneuver(change_height)
+    #     object.make_maneuver(change_height)
     if time == CENTERFOLD_TIME:
         obj.make_maneuver(centerfold)
 

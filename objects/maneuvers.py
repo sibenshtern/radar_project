@@ -15,7 +15,7 @@ class Maneuver:
             raise Exception("Duration must be greater than zero.")
 
         self.duration = duration
-        self.obj: 'aircraft.Aircraft' = obj
+        self.object: 'aircraft.Aircraft' = obj
         self.is_finished = False
         self.current_time: int = 0
 
@@ -39,14 +39,10 @@ class CenterFold(Maneuver):
         super().__init__(duration, obj)
         self.center_point = (deepcopy(obj.position) + obj.speed.norm() *
                              obj.centerfold_radius)
-        self.step = (2 * math.pi * abs(self.center_point - self.obj.position)) / duration
-        self.start_speed = None
+        self.angle = math.pi / duration
 
     def prepare(self):
-        x = self.obj.speed.x
-        y = self.obj.speed.y
-        self.obj.speed = Vector3D(y, -x, self.obj.speed.z)
-        self.start_speed = y
+        pass
 
     def do(self):
         self.current_time += 1
@@ -54,6 +50,15 @@ class CenterFold(Maneuver):
         if self.current_time >= self.duration:
             self.finish()
             self.is_finished = True
+
+        abs_speed = abs(self.object.speed)
+
+        self.object.speed.x = self.object.speed.x * math.cos(self.angle) - \
+            self.object.speed.y * math.sin(self.angle)
+        self.object.speed.y = self.object.speed.x * math.sin(self.angle) + \
+            self.object.speed.y * math.cos(self.angle)
+
+        self.object.speed = self.object.speed.norm() * abs_speed
 
     def finish(self):
         pass
@@ -67,14 +72,14 @@ class ChangeHeight(Maneuver):
         self.new_height = new_height
         self.__previous_speed: V = deepcopy(obj.speed)
 
-        self.speed_z = (self.new_height - self.obj.position.z) / self.duration
+        self.speed_z = (self.new_height - self.object.position.z) / self.duration
 
     def prepare(self):
-        if isinstance(self.obj.speed, Vector3D):
-            self.obj.speed.z = self.speed_z
+        if isinstance(self.object.speed, Vector3D):
+            self.object.speed.z = self.speed_z
 
     def finish(self):
-        self.obj.speed = deepcopy(self.__previous_speed)
+        self.object.speed = deepcopy(self.__previous_speed)
 
 
 class ChangeSpeed(Maneuver):
@@ -88,8 +93,8 @@ class ChangeSpeed(Maneuver):
         self.acceleration: V = deepcopy(obj.acceleration)
 
     def prepare(self):
-        new_acceleration = (self.new_speed - self.obj.speed) / self.duration
-        self.obj.acceleration = deepcopy(new_acceleration)
+        new_acceleration = (self.new_speed - self.object.speed) / self.duration
+        self.object.acceleration = deepcopy(new_acceleration)
 
     def finish(self):
-        self.obj.acceleration = deepcopy(self.acceleration)
+        self.object.acceleration = deepcopy(self.acceleration)
