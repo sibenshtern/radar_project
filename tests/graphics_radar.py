@@ -12,8 +12,6 @@ scene = Scene(Radar(), [obj], list(), 100)
 
 for i in range(scene.duration):
     scene.update()
-    # print("-", end="")
-    # time.sleep(0.2)
 
 
 def uncompress(data):
@@ -30,9 +28,12 @@ def uncompress(data):
 fig1 = plt.figure(1, figsize=(3, 3), dpi=500)
 ax_3d = fig1.add_subplot(projection='3d')
 
-reflection_index = scene._Scene__reflected.index(True)
-ax_3d.scatter(*uncompress(scene._Scene__trajectories[:reflection_index]), marker="<")
-ax_3d.scatter(*uncompress(scene._Scene__trajectories[reflection_index:]), marker=">")
+for i in range(scene.duration):
+    for j in range(len(scene.trajectories[i])):
+        if not scene.reflected[i][j]:
+            ax_3d.scatter(*uncompress([scene.trajectories[i][j]]), marker="<")
+        else:
+            ax_3d.scatter(*uncompress([scene.trajectories[i][j]]), marker=">")
 ax_3d.set_title("Trajectory")
 
 plt.show()

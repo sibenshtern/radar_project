@@ -13,16 +13,16 @@ class Emitter:
         self.fineness_of_coating = 10
 
     def send_signal(self, departure_time: int, direction: Vector,
-                 speed: Vector):
+                    speed: Vector):
         signal = Signal(departure_time, direction, speed) #, beams)
         return signal
 
-    def send_signals(self, departure_time):
+    def send_signals(self, departure_time) -> list[Signal]:
         signals = []
         for i in range(self.fineness_of_coating):
-            first_angle = 2 * math.pi / i
+            first_angle = 2 * math.pi / self.fineness_of_coating * i
             for j in range(self.fineness_of_coating // 2):
-                second_angle = math.pi / (i * 4)
+                second_angle = (math.pi / self.fineness_of_coating // 2) * (i * 4)
                 x, y, z = math.cos(first_angle), math.sin(second_angle), math.sin(second_angle)
                 signals.append(self.send_signal(departure_time, Vector3D(x, y, z), Vector3D(1, 1, 1)))
         return signals
