@@ -75,7 +75,7 @@ class Aircraft(Cube):
     def update(self):
         super().update()
         self.move()
-        self.maneuvers()
+        #self.maneuvers()
         self.m_model = self.get_model_matrix()
 
     def move(self):
@@ -83,9 +83,15 @@ class Aircraft(Cube):
                     self.pos[1] + self.speed[1],
                     self.pos[2] + self.speed[2])
 
+    def change_speed(self):
+        self.speed = glm.vec3(-1, -1, -1) * self.speed
+
+    def rotate(self):
+        self.rot = glm.vec3(self.rot.x + 45, self.rot.y + 0, self.rot.z + 0)
+
     def maneuvers(self):
         keys = pg.key.get_pressed()
         if keys[pg.K_v]:
-            self.speed = (self.speed[0] * (-1), 0, 0)
+            self.change_speed()
 
 

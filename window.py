@@ -49,6 +49,12 @@ class Window:
                 sys.exit()
             if event.type == pg.KEYDOWN and event.key == pg.K_o:
                 self.scene.add_object(Aircraft(self, pos=(5, 5, 0)))
+            if event.type == pg.KEYDOWN and event.key == pg.K_v:
+                var = self.scene.objects[len(self.scene.objects) - 1]
+                var.change_speed()
+            if event.type == pg.KEYDOWN and event.key == pg.K_r:
+                var = self.scene.objects[len(self.scene.objects) - 1]
+                var.rotate()
 
     def render(self):
         # clear framebuffer and color in specified normalized form: 0 ... 255 -> 0.0 ... 1.0
