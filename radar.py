@@ -1,6 +1,7 @@
+import math
 from typing import Optional
 
-from coordinates import Vector, Coordinates, Coordinates3D
+from coordinates import Vector, Vector3D, Coordinates, Coordinates3D
 from signal import Signal
 
 
@@ -9,12 +10,22 @@ class Emitter:
     def __init__(self, range_of_action: int,  characteristics: Optional[list] = None):
         self.range_of_action: int = range_of_action
         self.characteristics: list = characteristics
+        self.fineness_of_coating = 10
 
-    def send_signal(self, angle: int, departure_time: int, direction: Vector,
+    def send_signal(self, departure_time: int, direction: Vector,
                  speed: Vector):
-        signal = Signal(angle, departure_time, direction, speed) #, beams)
+        signal = Signal(departure_time, direction, speed) #, beams)
         return signal
 
+    def send_signals(self, departure_time):
+        signals = []
+        for i in range(self.fineness_of_coating):
+            first_angle = 2 * math.pi / i
+            for j in range(self.fineness_of_coating // 2):
+                second_angle = math.pi / (i * 4)
+                x, y, z = math.cos(first_angle), math.sin(second_angle), math.sin(second_angle)
+                signals.append(self.send_signal(departure_time, Vector3D(x, y, z), Vector3D(1, 1, 1)))
+        return signals
 
 class Receiver:
 

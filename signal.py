@@ -14,7 +14,6 @@ class Signal:
 
     def __init__(self, angle: int, departure_time: int, direction: V,
                  speed: V):  # , beams: list[Beam]):
-        self.angle: int = 0  # angle
         self.departure_time: int = departure_time
         self.direction: V = direction
         self.speed: V = speed

@@ -2,6 +2,7 @@ from radar import Radar
 from objects.aircraft import Aircraft
 from signal import Signal
 from collision_detector import CollisionDetector
+from tracker import Tracker
 from coordinates import Vector3D
 
 
@@ -14,6 +15,7 @@ class Scene:
         self.time: int = 0
         self.duration: int = duration
         self.collision_detector = CollisionDetector(self.radar)
+        self.tracker = Tracker()
 
         self.__trajectories = []
         self.__reflected = []
@@ -23,11 +25,7 @@ class Scene:
             return
         self.time += 1
         # TODO: rewrite bad code to another file
-        if len(self.signals) == 0:
-            v3d = Vector3D(2, 0, 0)
-            sp3d = Vector3D(1, 0, 0)
-            signal = self.radar.emitter.send_signal(0, self.time, v3d, sp3d)
-            self.signals.append(signal)
+        self.signals.append(self.radar.emitter.send_signals(self.time))
 
         signals_detection_object = self.collision_detector.scan_objects(self.signals, self.objects, self.time)
 
@@ -38,7 +36,6 @@ class Scene:
             self.signals.remove(signal)
 
         signals_detection_radar = self.radar.receiver.ab_filter(self.collision_detector.scan_radar(self.signals, self.time))
-        # send_to_tracker(self.radar.receiver.process(signals_detection_radar))
+        self.tracker.process_signal(signals_detection_radar, self.time)
         for signal in signals_detection_radar:
             self.signals.remove(signal)
-            print("D")
