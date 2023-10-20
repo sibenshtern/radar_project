@@ -1,5 +1,6 @@
 from copy import deepcopy
 from typing import TypeVar
+import math
 
 import objects.aircraft as aircraft
 from coordinates import Vector3D, VectorGCS, VectorLECS
@@ -36,12 +37,16 @@ class CenterFold(Maneuver):
 
     def __init__(self, duration: int, obj: 'aircraft.Aircraft'):
         super().__init__(duration, obj)
-        self.center_point = deepcopy(self.obj.position) + \
-                                (self.obj.speed / abs(self.obj.speed)) * \
-                                self.obj.centerfold_radius
+        self.center_point = (deepcopy(obj.position) + obj.speed.norm() *
+                             obj.centerfold_radius)
+        self.step = (2 * math.pi * abs(self.center_point - self.obj.position)) / duration
+        self.start_speed = None
 
     def prepare(self):
-        pass
+        x = self.obj.speed.x
+        y = self.obj.speed.y
+        self.obj.speed = Vector3D(y, -x, self.obj.speed.z)
+        self.start_speed = y
 
     def do(self):
         self.current_time += 1
@@ -56,7 +61,8 @@ class CenterFold(Maneuver):
 
 class ChangeHeight(Maneuver):
 
-    def __init__(self, duration: int, obj: 'aircraft.Aircraft', new_height: int):
+    def __init__(self, duration: int, obj: 'aircraft.Aircraft',
+                 new_height: int):
         super().__init__(duration, obj)
         self.new_height = new_height
         self.__previous_speed: V = deepcopy(obj.speed)
@@ -87,4 +93,3 @@ class ChangeSpeed(Maneuver):
 
     def finish(self):
         self.obj.acceleration = deepcopy(self.acceleration)
-

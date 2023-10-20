@@ -31,24 +31,28 @@ obj = Aircraft("helicopter", Coordinates3D(0, 0, 0),
                Vector3D(1, 1, 0), Vector3D(0, 0, 0))
 change_speed = ChangeSpeed(10, obj, Vector3D(10, 10, 0))
 change_height = ChangeHeight(10, obj, 15)
+centerfold = maneuvers.CenterFold(45, obj)
 
 speeds = [deepcopy(obj.speed)]
 accelerations = [deepcopy(obj.acceleration)]
 
 CHANGE_SPEED_TIME = 5
 CHANGE_HEIGHT_TIME = 10
+CENTERFOLD_TIME = 25
 
-DURATION = 25
+DURATION = 100
 
 for time in range(DURATION):
     obj.update()
     speeds.append(deepcopy(obj.speed))
     accelerations.append(deepcopy(obj.acceleration))
 
-    if time == CHANGE_SPEED_TIME:
-        obj.make_maneuver(change_speed)
-    if time == CHANGE_HEIGHT_TIME:
-        obj.make_maneuver(change_height)
+    # if time == CHANGE_SPEED_TIME:
+    #     obj.make_maneuver(change_speed)
+    # if time == CHANGE_HEIGHT_TIME:
+    #     obj.make_maneuver(change_height)
+    if time == CENTERFOLD_TIME:
+        obj.make_maneuver(centerfold)
 
 fig1 = plt.figure(1, figsize=(3, 3), dpi=500)
 ax_3d = fig1.add_subplot(projection='3d')

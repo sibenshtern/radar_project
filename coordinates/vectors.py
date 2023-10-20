@@ -56,6 +56,9 @@ class Vector3D(Vector):
         self.y = y
         self.z = z
 
+    def norm(self):
+        return self / abs(self)
+
     def __add__(self, other):
         return Vector3D(self.x + other.x, self.y + other.y, self.z + other.z)
 
