@@ -1,6 +1,7 @@
 import numpy as np
 import glm
 import pygame as pg
+import moderngl as mgl
 
 
 class BaseModel:
@@ -45,7 +46,6 @@ class Cube(BaseModel):
         self.program['m_view'].write(self.app.camera.m_view)
         self.program['camPos'].write(self.app.camera.position)
 
-
     def on_init(self):
         # texture
         self.texture = self.app.mesh.texture.textures[self.tex_id]
@@ -60,4 +60,32 @@ class Cube(BaseModel):
         self.program['light.Ia'].write(self.app.light.Ia)
         self.program['light.Id'].write(self.app.light.Id)
         self.program['light.Is'].write(self.app.light.Is)
+
+
+class Aircraft(Cube):
+    def __init__(self, app, vao_name='cube', tex_id=0, pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1), speed=(-0.01, 0, 0)):
+        super().__init__(app, vao_name, tex_id, pos, rot, scale)
+        self.speed = speed
+        self.on_init()
+
+        self.up = glm.vec3(0, 1, 0)
+        self.right = glm.vec3(1, 0, 0)
+        self.forward = glm.vec3(0, 0, -1)
+
+    def update(self):
+        super().update()
+        self.move()
+        self.maneuvers()
+        self.m_model = self.get_model_matrix()
+
+    def move(self):
+        self.pos = (self.pos[0] + self.speed[0],
+                    self.pos[1] + self.speed[1],
+                    self.pos[2] + self.speed[2])
+
+    def maneuvers(self):
+        keys = pg.key.get_pressed()
+        if keys[pg.K_v]:
+            self.speed = (self.speed[0] * (-1), 0, 0)
+
 
