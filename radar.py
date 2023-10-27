@@ -1,6 +1,8 @@
 import math
 from typing import Optional
 
+import matplotlib.pyplot as plt
+
 from coordinates import Vector, Vector3D, Coordinates, Coordinates3D
 from signal import Signal
 
@@ -19,12 +21,22 @@ class Emitter:
 
     def send_signals(self, departure_time) -> list[Signal]:
         signals = []
-        for i in range(self.fineness_of_coating):
-            first_angle = 2 * math.pi / self.fineness_of_coating * i
-            for j in range(self.fineness_of_coating // 2):
-                second_angle = (math.pi / self.fineness_of_coating // 2) * (i * 4)
-                x, y, z = math.cos(first_angle), math.sin(second_angle), math.sin(second_angle)
-                signals.append(self.send_signal(departure_time, Vector3D(x, y, z), Vector3D(1, 1, 1)))
+        count, ci = 3, 2
+        for j in range(self.fineness_of_coating + 1):
+            radius = math.sin(j * math.pi / (2 * self.fineness_of_coating))
+            z = math.cos(j * math.pi / (2 * self.fineness_of_coating))
+            count += ci
+            for i in range(count):
+                first_angle = 2 * math.pi / count * i
+                x, y = math.cos(first_angle) * radius, math.sin(first_angle) * radius
+                signals.append(self.send_signal(departure_time, Vector3D(x, y, z), Vector3D(x, y, z)))
+
+        fig = plt.figure(1, figsize=(3, 3), dpi=100)
+        ax = fig.add_subplot(projection="3d")
+
+        # for signal in signals:
+        #     ax.scatter(signal.position(1).x, signal.position(1).y, signal.position(1).z)
+        # plt.show()
         return signals
 
 class Receiver:
@@ -35,7 +47,33 @@ class Receiver:
         self.radius: int = radius
         self.position: Coordinates = position
 
-    def ab_filter(self, signals: list[Signal]):
+    def ab_filter(self, signals: list[Signal], time):
+        '''
+        return_signals = []
+        for signal in signals:
+            k = time - signal.departure_time
+
+            if k == 1:
+                filteredValue = measuredValue;
+                return_signals.append(signal)
+                continue
+            elif k >= 2:
+                filteredVelocity = signals - filteredValue) /T_0
+                filteredValue = measuredValue
+
+                extrapolatedValue = filteredValue + (filteredVelocity * T_0)
+                extrapolatedVelocity = filteredVelocity
+            return;
+
+            alpha = 2 * (2 * k - 1) / (k * (k +1))
+            beta = 6 / (k * (k + 1))
+
+            filteredValue = extrapolatedValue + (alpha * (measuredValue - extrapolatedValue))
+            filteredVelocity = extrapolatedVelocity + (beta / T_0 * (measuredValue - extrapolatedValue))
+
+            extrapolatedValue = filteredValue + (filteredVelocity * T_0)
+            extrapolatedVelocity = filteredVelocity
+        '''
         return signals
 
 

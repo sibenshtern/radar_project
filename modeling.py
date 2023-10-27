@@ -19,15 +19,14 @@ class Scene:
 
         self.trajectories = []
         self.reflected = []
-        self.signals.extend(self.radar.emitter.send_signals(self.time))
+        #self.signals.extend(self.radar.emitter.send_signals(self.time))
 
     def update(self):
         if self.duration <= self.time:
             return
         self.time += 1
-        # TODO: rewrite bad code to another file
 
-        # self.signals.extend(self.radar.emitter.send_signals(self.time))
+        self.signals.extend(self.radar.emitter.send_signals(self.time))
         self.trajectories.append([signal.position(self.time) for signal in self.signals])
         self.reflected.append([signal.reflected for signal in self.signals])
 
@@ -36,7 +35,8 @@ class Scene:
         for signal in signals_detection_object:
             self.signals.remove(signal)
 
-        signals_detection_radar = self.radar.receiver.ab_filter(self.collision_detector.scan_radar(self.signals, self.time))
+        # signals_detection_radar = self.radar.receiver.ab_filter(self.collision_detector.scan_radar(self.signals, self.time))
+        signals_detection_radar = self.collision_detector.scan_radar(self.signals, self.time)
         self.tracker.process_signal(signals_detection_radar, self.time)
         for signal in signals_detection_radar:
             self.signals.remove(signal)

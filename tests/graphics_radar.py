@@ -8,7 +8,7 @@ from radar import Radar
 obj = Aircraft("helicopter", Coordinates3D(50, 0, 0),
                Vector3D(0, 0, 0), Vector3D(0, 0, 0))
 
-scene = Scene(Radar(), [obj], list(), 100)
+scene = Scene(Radar(), [obj], list(), 3)
 
 for i in range(scene.duration):
     scene.update()
