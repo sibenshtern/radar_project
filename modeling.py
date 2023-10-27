@@ -26,6 +26,9 @@ class Scene:
             return
         self.time += 1
 
+        for aircraft in self.objects:
+            aircraft.update()
+
         self.signals.extend(self.radar.emitter.send_signals(self.time))
         self.trajectories.append([signal.position(self.time) for signal in self.signals])
         self.reflected.append([signal.reflected for signal in self.signals])

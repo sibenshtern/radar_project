@@ -31,9 +31,9 @@ ax_3d = fig1.add_subplot(projection='3d')
 for i in range(scene.duration):
     for j in range(len(scene.trajectories[i])):
         if not scene.reflected[i][j]:
-            ax_3d.scatter(*uncompress([scene.trajectories[i][j]]), marker="<")
+            ax_3d.scatter(*uncompress([scene.trajectories[i][j]]))
         else:
-            ax_3d.scatter(*uncompress([scene.trajectories[i][j]]), marker=">")
+            ax_3d.scatter(*uncompress([scene.trajectories[i][j]]))
 ax_3d.set_title("Trajectory")
 
 plt.show()
