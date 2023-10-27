@@ -37,6 +37,6 @@ class Scene:
 
         # signals_detection_radar = self.radar.receiver.ab_filter(self.collision_detector.scan_radar(self.signals, self.time))
         signals_detection_radar = self.collision_detector.scan_radar(self.signals, self.time)
-        self.tracker.process_signal(signals_detection_radar, self.time)
+        self.tracker.process_signals(signals_detection_radar, self.time)
         for signal in signals_detection_radar:
             self.signals.remove(signal)
