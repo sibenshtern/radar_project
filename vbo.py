@@ -6,6 +6,8 @@ class VBO:
     def __init__(self, ctx):
         self.vbos = {}
         self.vbos['cube'] = CubeVBO(ctx)
+        self.vbos['aircraft'] = AircraftVBO(ctx)
+        # self.vbos['laser'] = LaserVBO(ctx)
 
     def destroy(self):
         [vbo.destroy() for vbo in self.vbos.values()]
@@ -27,6 +29,16 @@ class BaseVBO:
 
     def destroy(self):
         self.vbo.release()
+
+
+class LaserVBO(BaseVBO):
+    def __init__(self, ctx):
+        super().__init__(ctx)
+        self.format = '3f'
+        self.attrib = ['in_position']
+
+    def get_vertex_data(self):
+        pass
 
 
 class CubeVBO(BaseVBO):
@@ -74,3 +86,8 @@ class CubeVBO(BaseVBO):
         vertex_data = np.hstack([tex_coord_data, vertex_data])
 
         return vertex_data
+
+
+class AircraftVBO(CubeVBO):
+    def __init__(self, ctx):
+        super().__init__(ctx)

@@ -3,6 +3,8 @@ import glm
 import pygame as pg
 import moderngl as mgl
 
+from objects.aircraft import Aircraft
+
 
 class BaseModel:
     def __init__(self, app, vao_name, tex_id, pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1)):
@@ -35,6 +37,11 @@ class BaseModel:
         self.vao.render()
 
 
+class Laser(BaseModel):
+    def __init__(self, app, vao_name='laser', pos=(1000, 1000, 1000)):
+        super().__init__(app, vao_name, pos)
+
+
 class Cube(BaseModel):
     def __init__(self, app, vao_name='cube', tex_id=0, pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1)):
         super().__init__(app, vao_name, tex_id, pos, rot, scale)
@@ -62,9 +69,9 @@ class Cube(BaseModel):
         self.program['light.Is'].write(self.app.light.Is)
 
 
-class Aircraft(Cube):
-    def __init__(self, app, vao_name='cube', tex_id=0, pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1), speed=(-0.01, 0, 0)):
-        super().__init__(app, vao_name, tex_id, pos, rot, scale)
+class Aircraft_model(Cube, Aircraft):
+    def __init__(self, app, vao_name='cube', tex_id=0, pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 0.5, 1), speed=(-0.01, 0, 0)):
+        super(Cube).__init__(app, vao_name, tex_id, pos, rot, scale)
         self.speed = speed
         self.on_init()
 

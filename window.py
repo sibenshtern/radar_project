@@ -8,6 +8,10 @@ from light import Light
 from mesh import Mesh
 from scene import Scene
 
+from radar import Radar
+from objects.aircraft import Aircraft
+from signal import Signal
+
 
 class Window:
     def __init__(self, win_size=(1000, 800)):
@@ -39,7 +43,7 @@ class Window:
         # mesh
         self.mesh = Mesh(self)
         # scene
-        self.scene = Scene(self)
+        self.scene = Scene(self, Radar(), [], [], 10000)
 
     def check_events(self):
         for event in pg.event.get():
@@ -61,6 +65,7 @@ class Window:
         self.ctx.clear(color=(0.08, 0.16, 0.18))
         # render scene
         self.scene.render()
+
         # swap buffers
         pg.display.flip()
 
