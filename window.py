@@ -44,7 +44,6 @@ class Window:
         self.camera = Camera(self)
         # mesh
         self.mesh = Mesh(self)
-        # scene=
         self.scene = Scene(self, Radar(), [], [], 10000, self.time)
 
     def check_events(self):

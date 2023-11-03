@@ -49,7 +49,6 @@ class Scene:
     def render(self):
         for obj in self.objects:
             obj.render()
-
         # signals_detection_object = self.collision_detector.scan_objects(self.signals, self.objects, self.time)
 
         # for signal in signals_detection_object:
