@@ -46,7 +46,6 @@ class Scene:
         self.trajectories.append([signal.position(self.time) for signal in self.signals])
         self.reflected.append([signal.reflected for signal in self.signals])
 
-
     def render(self):
         for obj in self.objects:
             obj.render()

@@ -44,7 +44,7 @@ class Window:
         self.camera = Camera(self)
         # mesh
         self.mesh = Mesh(self)
-        # scene
+        # scene=
         self.scene = Scene(self, Radar(), [], [], 10000, self.time)
 
     def check_events(self):
@@ -85,7 +85,6 @@ class Window:
             self.camera.update()
             self.render()
             self.delta_time = self.clock.tick(24)
-
 
 
 if __name__ == '__main__':

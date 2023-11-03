@@ -1,11 +1,13 @@
 import math
-from typing import Optional
+from typing import Optional, TypeVar
 
 import matplotlib.pyplot as plt
 import coordinates.coordinates
 from coordinates.vectors import Vector, Vector3D
 from coordinates.coordinates import Coordinates, Coordinates3D
 from signal import Signal
+
+V = TypeVar('V', Vector3D, Vector)
 
 
 class Emitter:
@@ -17,8 +19,7 @@ class Emitter:
         self.radiation_power = 150000  # Watt
         self.transmit_antenna_gain = 40  # decibel
 
-    def send_signal(self, departure_time: int, direction: Vector,
-                    speed: Vector):
+    def send_signal(self, departure_time: int, direction: V, speed: V):
         signal = Signal(departure_time, direction, speed) #, beams)
         return signal
 
@@ -46,6 +47,7 @@ class Emitter:
         # plt.show()
         return signals
 
+
 class Receiver:
 
     def __init__(self, radius: int, position: Coordinates, characteristics: Optional[list] = None):
@@ -53,7 +55,6 @@ class Receiver:
         self.received_signals: list = []
         self.radius: int = radius
         self.position: Coordinates = position
-
 
 
 class Radar:
