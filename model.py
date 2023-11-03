@@ -41,6 +41,8 @@ class Laser(BaseModel):
     def __init__(self, app, vao_name='laser', pos=(1000, 1000, 1000)):
         super().__init__(app, vao_name, pos)
 
+    def render(self):
+
 
 class Cube(BaseModel):
     def __init__(self, app, vao_name='cube', tex_id=0, pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1)):
@@ -68,10 +70,9 @@ class Cube(BaseModel):
         self.program['light.Id'].write(self.app.light.Id)
         self.program['light.Is'].write(self.app.light.Is)
 
-
 class Aircraft_model(Cube, Aircraft):
     def __init__(self, app, vao_name='cube', tex_id=0, pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 0.5, 1), speed=(-0.01, 0, 0)):
-        super(Cube).__init__(app, vao_name, tex_id, pos, rot, scale)
+        super(Cube, self).__init__(app, vao_name, tex_id, pos, rot, scale)
         self.speed = speed
         self.on_init()
 

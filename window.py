@@ -1,3 +1,5 @@
+import time
+
 import pygame as pg
 import moderngl as mgl
 import sys
@@ -24,7 +26,7 @@ class Window:
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MINOR_VERSION, 3)
         pg.display.gl_set_attribute(pg.GL_CONTEXT_PROFILE_MASK, pg.GL_CONTEXT_PROFILE_CORE)
         # create opengl context: double buffering provides two complete color buffers for use in drawing
-        pg.display.set_mode(self.WIN_SIZE, flags=pg.OPENGL | pg.DOUBLEBUF)
+        self.screen = pg.display.set_mode(self.WIN_SIZE, flags=pg.OPENGL | pg.DOUBLEBUF)
         # mouse settings
         pg.event.set_grab(True)
         pg.mouse.set_visible(False)
@@ -43,7 +45,7 @@ class Window:
         # mesh
         self.mesh = Mesh(self)
         # scene
-        self.scene = Scene(self, Radar(), [], [], 10000)
+        self.scene = Scene(self, Radar(), [], [], 10000, self.time)
 
     def check_events(self):
         for event in pg.event.get():
@@ -52,17 +54,20 @@ class Window:
                 pg.quit()
                 sys.exit()
             if event.type == pg.KEYDOWN and event.key == pg.K_o:
-                self.scene.add_object(Aircraft(self, pos=(5, 5, 0)))
+                self.scene.add_object(Aircraft_model(self, pos=(5, 5, 0)))
             if event.type == pg.KEYDOWN and event.key == pg.K_v:
                 var = self.scene.objects[len(self.scene.objects) - 1]
                 var.change_speed()
             if event.type == pg.KEYDOWN and event.key == pg.K_r:
                 var = self.scene.objects[len(self.scene.objects) - 1]
                 var.rotate()
+            if event.type == pg.KEYDOWN and event.key == pg.K_i:
+                self.scene.send_signals()
 
     def render(self):
         # clear framebuffer and color in specified normalized form: 0 ... 255 -> 0.0 ... 1.0
         self.ctx.clear(color=(0.08, 0.16, 0.18))
+
         # render scene
         self.scene.render()
 
@@ -79,7 +84,7 @@ class Window:
             [obj.update() for obj in self.scene.objects]
             self.camera.update()
             self.render()
-            self.delta_time = self.clock.tick(60)
+            self.delta_time = self.clock.tick(24)
 
 
 

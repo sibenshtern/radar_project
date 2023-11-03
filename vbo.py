@@ -37,8 +37,14 @@ class LaserVBO(BaseVBO):
         self.format = '3f'
         self.attrib = ['in_position']
 
+    @staticmethod
+    def get_data(vertices):
+        data = [vertices[ind] for triangle in indices for ind in triangle]
+        return np.array(data, dtype='f4')
+
     def get_vertex_data(self):
-        pass
+        vertex_data = self.get_data([(0, 0, 0)])
+        return vertex_data
 
 
 class CubeVBO(BaseVBO):

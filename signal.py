@@ -12,7 +12,7 @@ Beam = namedtuple("Beam", ["power", "direction_angle"])
 
 class Signal:
 
-    def __init__(self, angle: int, departure_time: int, direction: V,
+    def __init__(self, departure_time: int, direction: V,
                  speed: V):  # , beams: list[Beam]):
         self.departure_time: int = departure_time
         self.direction: V = direction
@@ -26,5 +26,5 @@ class Signal:
         self.departure_time = new_time
         self.reflected = True
 
-    def position(self, time) -> V:
-        return self.direction + self.speed * abs(time - self.departure_time)
+    def position(self, time: int) -> V:
+        return self.direction + (abs(time - self.departure_time) * self.speed)
