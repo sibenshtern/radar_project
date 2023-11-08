@@ -1,15 +1,10 @@
 import math
 from typing import Optional
 
-<<<<<<< HEAD
 import matplotlib.pyplot as plt
-
-from coordinates import Vector, Vector3D, Coordinates, Coordinates3D
-=======
 import coordinates.coordinates
 from coordinates.vectors import Vector, Vector3D
 from coordinates.coordinates import Coordinates, Coordinates3D
->>>>>>> ar961na_merge
 from signal import Signal
 
 
