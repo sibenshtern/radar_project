@@ -8,7 +8,6 @@ from signal import Signal
 from coordinates.coordinates import Vector3D
 
 import pygame as pg
-import OpenGL.GL as gl
 
 class Scene:
     def __init__(self, app, radar: Radar, objects: list[Aircraft], signals: list[Signal], duration: int, time):
@@ -46,17 +45,6 @@ class Scene:
         self.signals.extend(self.radar.emitter.send_signals(self.time))
         self.trajectories.append([signal.position(self.time) for signal in self.signals])
         self.reflected.append([signal.reflected for signal in self.signals])
-
-        gl.glClear(gl.GL_COLOR_BUFFER_BIT|gl.GL_DEPTH_BUFFER_BIT)
-        gl.glBegin(gl.GL_LINES)
-
-        for i in self.trajectories:
-            for j in i:
-                # pg.draw.line(, (238, 0, 238), (0, 0, 0), j)
-                gl.glVertex3fv((0.0, 0.0, 0.0))
-                self.add_object(Cube(self.app, pos=(10, 10, 10)))
-                gl.glVertex3fv((10.0, 10.0, 10.0))
-                # gl.glEnd()
 
 
     def render(self):

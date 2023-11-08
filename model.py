@@ -42,6 +42,7 @@ class Laser(BaseModel):
         super().__init__(app, vao_name, pos)
 
     def render(self):
+        pass
 
 
 class Cube(BaseModel):
