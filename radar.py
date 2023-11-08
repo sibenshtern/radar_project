@@ -2,7 +2,6 @@ import math
 from typing import Optional, TypeVar
 
 import matplotlib.pyplot as plt
-import coordinates.coordinates
 from coordinates.vectors import Vector, Vector3D
 from coordinates.coordinates import Coordinates, Coordinates3D
 from signal import Signal
