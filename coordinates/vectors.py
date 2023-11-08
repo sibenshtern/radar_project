@@ -113,6 +113,10 @@ class Vector3D(Vector):
         self.z /= other
         return self
 
+    def __iter__(self):
+        for coordinate in (self.x, self.y, self.z):
+            yield coordinate
+
     def __str__(self) -> str:
         return f"Vector3D(x: {self.x}, y: {self.y}, z: {self.z})"
 

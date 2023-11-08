@@ -1,7 +1,7 @@
 from typing import TypeVar
 
 from objects import Tracked
-from coordinates import Coordinates3D, CoordinatesGCS, CoordinatesLECS
+from coordinates.coordinates import Coordinates3D, CoordinatesGCS, CoordinatesLECS
 from radar import Signal
 
 C = TypeVar('C', CoordinatesGCS, CoordinatesLECS, Coordinates3D)

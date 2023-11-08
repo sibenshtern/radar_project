@@ -1,8 +1,8 @@
 from collections import namedtuple
 from typing import TypeVar
 
-from coordinates import (Vector3D, VectorGCS, VectorLECS, Coordinates3D,
-                         CoordinatesGCS, CoordinatesLECS)
+from coordinates.vectors import Vector3D, VectorGCS, VectorLECS
+from coordinates.coordinates import Coordinates3D, CoordinatesGCS, CoordinatesLECS
 
 V = TypeVar('V', Vector3D, VectorGCS, VectorLECS)
 C = TypeVar('C', Coordinates3D, CoordinatesGCS, CoordinatesLECS)
@@ -26,5 +26,5 @@ class Signal:
         self.departure_time = new_time
         self.reflected = True
 
-    def position(self, time) -> V:
-        return self.direction + self.speed * abs(time - self.departure_time)
+    def position(self, time: int) -> V:
+        return self.direction + (abs(time - self.departure_time) * self.speed)
