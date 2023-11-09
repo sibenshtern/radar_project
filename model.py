@@ -82,10 +82,6 @@ class Aircraft_model(Cube, Aircraft):
         Aircraft.__init__(self, vao_name, Coordinates3D(*pos), Vector3D(*speed), Vector3D(0, 0, 0))
         self.on_init()
 
-        self.up = glm.vec3(0, 1, 0)
-        self.right = glm.vec3(1, 0, 0)
-        self.forward = glm.vec3(0, 0, -1)
-
     def update(self):
         super().update()
         Aircraft.update(self)
