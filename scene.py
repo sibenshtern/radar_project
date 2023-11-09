@@ -9,6 +9,7 @@ from coordinates.coordinates import Vector3D
 
 import pygame as pg
 
+
 class Scene:
     def __init__(self, app, radar: Radar, objects: list[Aircraft], signals: list[Signal], duration: int, time):
         self.app = app
@@ -38,8 +39,8 @@ class Scene:
         # ground
         n, s = 30, 2
         for x in range(-n, n, s):
-            for z in range(-n, n, s):
-                add(Cube(app, pos=(x, -s, z), tex_id=1))
+            for y in range(-n, n, s):
+                add(Cube(app, pos=(x, -y, -10), tex_id=1))
 
     def send_signals(self):
         self.signals.extend(self.radar.emitter.send_signals(self.time))

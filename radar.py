@@ -2,12 +2,11 @@ import math
 from typing import Optional, TypeVar
 
 import matplotlib.pyplot as plt
-from coordinates.vectors import Vector, Vector3D
+from coordinates.vectors import Vector, Vector3D, VectorGCS, VectorLECS
 from coordinates.coordinates import Coordinates, Coordinates3D
 from signal import Signal
 
-V = TypeVar('V', Vector3D, Vector)
-
+V = TypeVar('V', Vector, Vector3D, VectorGCS, VectorLECS)
 
 class Emitter:
 
@@ -19,7 +18,7 @@ class Emitter:
         self.transmit_antenna_gain = 40  # decibel
 
     def send_signal(self, departure_time: int, direction: V, speed: V):
-        signal = Signal(departure_time, direction, speed) #, beams)
+        signal = Signal(departure_time, direction, speed)  # , beams)
         return signal
 
     def send_signals(self, departure_time) -> list[Signal]:
