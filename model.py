@@ -4,12 +4,16 @@ import pygame as pg
 import moderngl as mgl
 
 from objects.aircraft import Aircraft
+from coordinates.vectors import Vector3D
+from coordinates import Coordinates3D
+
+from objects.maneuvers import CenterFold, ChangeSpeed, ChangeHeight
 
 
 class BaseModel:
     def __init__(self, app, vao_name, tex_id, pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1)):
         self.app = app
-        self.pos = pos
+        self.position = pos
         self.rot = glm.vec3([glm.radians(a) for a in rot])
         self.scale = scale
         self.vao = app.mesh.vao.vaos[vao_name]
@@ -23,7 +27,7 @@ class BaseModel:
     def get_model_matrix(self):
         m_model = glm.mat4()
         # translate
-        m_model = glm.translate(m_model, self.pos)
+        m_model = glm.translate(m_model, tuple(self.position))
         # rotate
         m_model = glm.rotate(m_model, self.rot.x, glm.vec3(1, 0, 0))
         m_model = glm.rotate(m_model, self.rot.y, glm.vec3(0, 1, 0))
@@ -71,10 +75,11 @@ class Cube(BaseModel):
         self.program['light.Id'].write(self.app.light.Id)
         self.program['light.Is'].write(self.app.light.Is)
 
+
 class Aircraft_model(Cube, Aircraft):
     def __init__(self, app, vao_name='cube', tex_id=0, pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 0.5, 1), speed=(-0.01, 0, 0)):
         super(Cube, self).__init__(app, vao_name, tex_id, pos, rot, scale)
-        self.speed = speed
+        Aircraft.__init__(self, vao_name, Coordinates3D(*pos), Vector3D(*speed), Vector3D(0, 0, 0))
         self.on_init()
 
         self.up = glm.vec3(0, 1, 0)
@@ -83,24 +88,26 @@ class Aircraft_model(Cube, Aircraft):
 
     def update(self):
         super().update()
-        self.move()
-        #self.maneuvers()
+        Aircraft.update(self)
+
         self.m_model = self.get_model_matrix()
 
-    def move(self):
-        self.pos = (self.pos[0] + self.speed[0],
-                    self.pos[1] + self.speed[1],
-                    self.pos[2] + self.speed[2])
-
     def change_speed(self):
-        self.speed = glm.vec3(-1, -1, -1) * self.speed
+        change_speed = ChangeSpeed(10, self, Vector3D(1, 1, 0))
+        self.make_maneuver(change_speed)
+
+    def centerfold(self):
+        centerfold = CenterFold(60, self)
+        self.make_maneuver(centerfold)
+
+    def change_height(self):
+        change_height = ChangeHeight(10, self, 15)
+        self.make_maneuver(change_height)
 
     def rotate(self):
         self.rot = glm.vec3(self.rot.x + 45, self.rot.y + 0, self.rot.z + 0)
 
-    def maneuvers(self):
-        keys = pg.key.get_pressed()
-        if keys[pg.K_v]:
-            self.change_speed()
 
+if __name__ == "__main__":
+    print(Aircraft_model.__mro__)
 

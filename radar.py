@@ -1,11 +1,13 @@
 import math
-from typing import Optional
+from typing import Optional, TypeVar
 
 import matplotlib.pyplot as plt
 import coordinates.coordinates
-from coordinates.vectors import Vector, Vector3D
+from coordinates.vectors import Vector, Vector3D, VectorGCS, VectorLECS
 from coordinates.coordinates import Coordinates, Coordinates3D
 from signal import Signal
+
+V = TypeVar('V', Vector, Vector3D, VectorGCS, VectorLECS)
 
 
 class Emitter:
@@ -15,9 +17,8 @@ class Emitter:
         self.characteristics: list = characteristics
         self.fineness_of_coating = 10
 
-    def send_signal(self, departure_time: int, direction: Vector,
-                    speed: Vector):
-        signal = Signal(departure_time, direction, speed) #, beams)
+    def send_signal(self, departure_time: int, direction: V, speed: V):
+        signal = Signal(departure_time, direction, speed)  # , beams)
         return signal
 
     def send_signals(self, departure_time) -> list[Signal]:
@@ -43,6 +44,7 @@ class Emitter:
         #     ax.scatter(signal.position(1).x, signal.position(1).y, signal.position(1).z)
         # plt.show()
         return signals
+
 
 class Receiver:
 

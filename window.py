@@ -58,6 +58,12 @@ class Window:
             if event.type == pg.KEYDOWN and event.key == pg.K_v:
                 var = self.scene.objects[len(self.scene.objects) - 1]
                 var.change_speed()
+            if event.type == pg.KEYDOWN and event.key == pg.K_c:
+                var = self.scene.objects[len(self.scene.objects) - 1]
+                var.centerfold()
+            if event.type == pg.KEYDOWN and event.key == pg.K_h:
+                var = self.scene.objects[len(self.scene.objects) - 1]
+                var.change_height()
             if event.type == pg.KEYDOWN and event.key == pg.K_r:
                 var = self.scene.objects[len(self.scene.objects) - 1]
                 var.rotate()
