@@ -2,33 +2,35 @@ from objects import Tracked
 from coordinates import Coordinates
 
 class ABFilter:
-     def __init__(self, kmin = 5, kmax = 10):
+    def __init__(self, kmax = 10):
         self.t = 1  # 1 condition unit
+        self.kmax = kmax
 
 
     def filter(self, obj:Tracked, position:Coordinates):
 
         k = len(obj.trajectory)
-        if k == 1:
+        if k == 0:
             obj.trajectory.append(position)
             return
-        if k < self.kmin: # initialization
-            self.filteredVelocity = (position - self.filteredValue) / self.t
+        if k == 1 or k == 2: # initialization
+            obj.filteredVelocity = (position - obj.trajectory[-1]) / self.t
             obj.trajectory.append(position)
 
-            self.extrapolatedValue = position + (self.filteredVelocity * self.t)
-            self.extrapolatedVelocity = self.filteredVelocity
+            obj.extrapolatedValue = position + (obj.filteredVelocity * self.t)
+            obj.extrapolatedVelocity = obj.filteredVelocity
             return
 
         if k > self.kmax:
             obj.trajectory.pop(0)
 
+
         alpha = 2 * (2 * k - 1) / (k * (k +1))
         beta = 6 / (k * (k + 1))
 
-        obj.trajectory.append(self.extrapolatedValue + (alpha * (position - self.extrapolatedValue)))
-        self.filteredVelocity = self.extrapolatedVelocity + (beta / self.t * (position - self.extrapolatedValue))
+        obj.trajectory.append(obj.extrapolatedValue + (alpha * (position - obj.extrapolatedValue)))
+        obj.filteredVelocity = obj.extrapolatedVelocity + (beta / self.t * (position - obj.extrapolatedValue))
 
-        self.extrapolatedValue = obj.trajectory[-1] + (self.filteredVelocity * self.t)
-        self.extrapolatedVelocity = self.filteredVelocity
+        obj.extrapolatedValue = obj.trajectory[-1] + (obj.filteredVelocity * self.t)
+        obj.extrapolatedVelocity = obj.filteredVelocity
 
