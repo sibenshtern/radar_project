@@ -47,34 +47,6 @@ class Receiver:
         self.radius: int = radius
         self.position: Coordinates = position
 
-    def ab_filter(self, signals: list[Signal], time):
-        '''
-        return_signals = []
-        for signal in signals:
-            k = time - signal.departure_time
-
-            if k == 1:
-                filteredValue = measuredValue;
-                return_signals.append(signal)
-                continue
-            elif k >= 2:
-                filteredVelocity = signals - filteredValue) /T_0
-                filteredValue = measuredValue
-
-                extrapolatedValue = filteredValue + (filteredVelocity * T_0)
-                extrapolatedVelocity = filteredVelocity
-            return;
-
-            alpha = 2 * (2 * k - 1) / (k * (k +1))
-            beta = 6 / (k * (k + 1))
-
-            filteredValue = extrapolatedValue + (alpha * (measuredValue - extrapolatedValue))
-            filteredVelocity = extrapolatedVelocity + (beta / T_0 * (measuredValue - extrapolatedValue))
-
-            extrapolatedValue = filteredValue + (filteredVelocity * T_0)
-            extrapolatedVelocity = filteredVelocity
-        '''
-        return signals
 
 
 class Radar:
