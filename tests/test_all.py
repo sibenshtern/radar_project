@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import plotly.express as px
 
 from objects import Aircraft
 from coordinates import Vector3D, Coordinates3D
@@ -7,7 +6,7 @@ from modeling import Scene
 from radar import Radar
 
 aircraft = Aircraft("helicopter", Coordinates3D(-5, -5, 2),
-                    Vector3D(2, 2, 0), Vector3D(0, 0, 0))
+                    Vector3D(2, 2, 0), Vector3D(0, 0, 0), 1)
 radar = Radar()
 scene = Scene(radar, [aircraft], [], 5)
 
@@ -33,7 +32,8 @@ ax_3d = fig1.add_subplot(projection='3d')
 for i in range(scene.duration):
     for j in range(len(scene.trajectories[i])):
         if not scene.reflected[i][j]:
-            ax_3d.scatter(*uncompress([scene.trajectories[i][j]]))
+            pass
+            #ax_3d.scatter(*uncompress([scene.trajectories[i][j]]))
         else:
             ax_3d.scatter(*uncompress([scene.trajectories[i][j]]))
 ax_3d.set_title("Trajectory")
