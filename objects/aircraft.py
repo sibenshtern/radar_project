@@ -21,12 +21,15 @@ class Aircraft:
         self.speed: V = deepcopy(speed)
         self.acceleration: V = deepcopy(acceleration)
 
+        self.effective_scattering_area = 10 # meters^2
+
         self.centerfold_radius: float = 10
         self.reflection_radius: float = radius
 
         self.__trajectory: list[C] = [deepcopy(position)]
 
         self.__current_maneuvers: list[M] = []
+
 
     def make_maneuver(self, maneuver: Union[M]):
         self.__current_maneuvers.append(maneuver)
