@@ -13,6 +13,8 @@ class Emitter:
         self.range_of_action: int = range_of_action
         self.characteristics: list = characteristics
         self.fineness_of_coating = 10
+        self.radiation_power = 150000  # Watt
+        self.transmit_antenna_gain = 40  # decibel
 
     def send_signal(self, departure_time: int, direction: Vector,
                     speed: Vector):
