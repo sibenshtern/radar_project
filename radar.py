@@ -23,15 +23,15 @@ class Emitter:
 
     def send_signals(self, departure_time) -> list[Signal]:
         signals = []
-        # count, ci = 3, 2
-        # for j in range(self.fineness_of_coating + 1):
-        #     radius = math.sin(j * math.pi / (2 * self.fineness_of_coating))
-        #     z = math.cos(j * math.pi / (2 * self.fineness_of_coating))
-        #     count += ci
-        count = 2
+        count, ci = 3, 2
         for j in range(self.fineness_of_coating + 1):
             radius = math.sin(j * math.pi / (2 * self.fineness_of_coating))
             z = math.cos(j * math.pi / (2 * self.fineness_of_coating))
+            count += ci
+        #count = 2
+        #for j in range(self.fineness_of_coating + 1):
+        #    radius = math.sin(j * math.pi / (2 * self.fineness_of_coating))
+        #    z = math.cos(j * math.pi / (2 * self.fineness_of_coating))
             for i in range(count):
                 first_angle = 2 * math.pi / count * i
                 x, y = math.cos(first_angle) * radius, math.sin(first_angle) * radius

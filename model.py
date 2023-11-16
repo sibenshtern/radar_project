@@ -2,6 +2,7 @@ import numpy as np
 import glm
 import pygame as pg
 import moderngl as mgl
+import numpy
 
 from objects.aircraft import Aircraft
 from coordinates.vectors import Vector3D
@@ -35,6 +36,7 @@ class BaseModel:
         # scale
         m_model = glm.scale(m_model, self.scale)
         return m_model
+
 
     def render(self):
         self.update()

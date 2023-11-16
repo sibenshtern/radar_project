@@ -38,14 +38,14 @@ class Scene(ModelingScene):
         app = self.app
         add = self.add_object
 
-        # radar station
+        # radar station`
         add(Cube(app, pos=(1, 0, 0)))
 
         # ground
         n, s = 30, 2
         for x in range(-n, n, s):
             for y in range(-n, n, s):
-                add(Cube(app, pos=(-x, -2, y), tex_id=1))
+                add(Cube(app, pos=(x, y, -2), tex_id=1))
 
     def update(self):
         if self.duration <= self.time:
@@ -73,7 +73,7 @@ class Scene(ModelingScene):
     def render_signals(self):
         for signal in self.signals:
             signal_position = signal.position(self.time)
-            Cube(self.app, pos=(signal_position.x, signal_position.z, -signal_position.y),
+            Cube(self.app, pos=signal_position,
                  scale=(0.1, 0.1, 0.1)).render()
 
     def render(self):

@@ -12,9 +12,10 @@ uniform mat4 m_proj;
 uniform mat4 m_view;
 uniform mat4 m_model;
 
+
 void main() {
     uv_0 = in_texcoord_0;
     fragPos = vec3(m_model * vec4(in_position, 1.0));
     normal = mat3(transpose(inverse(m_model))) * normalize(in_normal);
-    gl_Position = m_proj * m_view * m_model * vec4(in_position, 1.0);
+    gl_Position = m_proj * m_view * m_model * mat4(1, 0, 0, 0, 0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 1) * vec4(in_position, 1.0);
 }
