@@ -67,7 +67,7 @@ class Window:
                 var = self.scene.objects[len(self.scene.objects) - 1]
                 var.rotate()
             if event.type == pg.KEYDOWN and event.key == pg.K_i:
-                self.scene.send_signals()
+                self.scene.show_signals = not self.scene.show_signals
 
     def render(self):
         # clear framebuffer and color in specified normalized form: 0 ... 255 -> 0.0 ... 1.0
