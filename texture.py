@@ -7,7 +7,9 @@ class Texture:
         self.ctx = ctx
         self.textures = {}
         self.textures[0] = self.get_texture(path='textures/test.png')
-        self.textures[1] = self.get_texture(path='textures/test.png')
+        self.textures[1] = self.get_texture(path='textures/grass.png')
+        self.textures['aircraft'] = self.get_texture(
+            path='objects/WWII_Plane_Japan_Kawasaki_Ki-61_v1_L2.12b7c514a6-be0e-41be-b76d-35020244d960/14082_WWII_Plane_Japan_Kawasaki_Ki-61_diffuse_v1.jpg')
 
     def get_texture(self, path):
         texture = pg.image.load(path).convert()

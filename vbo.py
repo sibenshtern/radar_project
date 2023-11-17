@@ -1,4 +1,5 @@
 import numpy as np
+import pywavefront
 import moderngl as mgl
 
 
@@ -7,7 +8,6 @@ class VBO:
         self.vbos = {}
         self.vbos['cube'] = CubeVBO(ctx)
         self.vbos['aircraft'] = AircraftVBO(ctx)
-        # self.vbos['laser'] = LaserVBO(ctx)
 
     def destroy(self):
         [vbo.destroy() for vbo in self.vbos.values()]
@@ -29,22 +29,6 @@ class BaseVBO:
 
     def destroy(self):
         self.vbo.release()
-
-
-class LaserVBO(BaseVBO):
-    def __init__(self, ctx):
-        super().__init__(ctx)
-        self.format = '3f'
-        self.attrib = ['in_position']
-
-    @staticmethod
-    def get_data(vertices):
-        data = [vertices[ind] for triangle in indices for ind in triangle]
-        return np.array(data, dtype='f4')
-
-    def get_vertex_data(self):
-        vertex_data = self.get_data([(0, 0, 0)])
-        return vertex_data
 
 
 class CubeVBO(BaseVBO):
@@ -94,6 +78,17 @@ class CubeVBO(BaseVBO):
         return vertex_data
 
 
-class AircraftVBO(CubeVBO):
+class AircraftVBO(BaseVBO):
     def __init__(self, ctx):
         super().__init__(ctx)
+        self.format = '2f 3f 3f'
+        self.attrib = ['in_texcoord_0', 'in_normal', 'in_position']
+
+    def get_vertex_data(self):
+        objs = pywavefront.Wavefront(
+            'objects/WWII_Plane_Japan_Kawasaki_Ki-61_v1_L2.12b7c514a6-be0e-41be-b76d-35020244d960/14082_WWII_Plane_Japan_Kawasaki_Ki-61_v1_L2.obj',
+            cache=True, parse=True)
+        obj = objs.materials.popitem()[1]
+        vertex_data = obj.vertices
+        vertex_data = np.array(vertex_data, dtype='f4')
+        return vertex_data

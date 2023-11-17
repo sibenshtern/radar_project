@@ -42,14 +42,6 @@ class BaseModel:
         self.vao.render()
 
 
-class Laser(BaseModel):
-    def __init__(self, app, vao_name='laser', pos=(1000, 1000, 1000)):
-        super().__init__(app, vao_name, pos)
-
-    def render(self):
-        pass
-
-
 class Cube(BaseModel):
     def __init__(self, app, vao_name='cube', tex_id=0, pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1)):
         super().__init__(app, vao_name, tex_id, pos, rot, scale)
@@ -77,14 +69,33 @@ class Cube(BaseModel):
         self.program['light.Is'].write(self.app.light.Is)
 
 
-class Aircraft_model(Cube, Aircraft):
-    def __init__(self, app, vao_name='cube', tex_id=0, pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 0.5, 1), speed=(-0.01, 0, 0)):
-        super(Cube, self).__init__(app, vao_name, tex_id, pos, rot, scale)
+class AircraftModel(BaseModel, Aircraft):
+    def __init__(self, app, vao_name='aircraft', tex_id='aircraft',
+                 pos=(0, 0, 0), rot=(-90, 0, 0), scale=(1, 0.5, 1), speed=(-0.01, 0, 0)):
+        super().__init__(app, vao_name, tex_id, pos, rot, scale)
         Aircraft.__init__(self, vao_name, Coordinates3D(*pos), Vector3D(*speed), Vector3D(0, 0, 0))
         self.on_init()
 
+    def on_init(self):
+        # texture
+        self.texture = self.app.mesh.texture.textures[self.tex_id]
+        self.program['u_texture_0'] = 0
+        self.texture.use()
+        # mvp
+        self.program['m_proj'].write(self.app.camera.m_proj)
+        self.program['m_view'].write(self.app.camera.m_view)
+        self.program['m_model'].write(self.m_model)
+        # light
+        self.program['light.position'].write(self.app.light.position)
+        self.program['light.Ia'].write(self.app.light.Ia)
+        self.program['light.Id'].write(self.app.light.Id)
+        self.program['light.Is'].write(self.app.light.Is)
+
     def update(self):
-        super().update()
+        self.texture.use()
+        self.program['m_model'].write(self.m_model)
+        self.program['m_view'].write(self.app.camera.m_view)
+        self.program['camPos'].write(self.app.camera.position)
         Aircraft.update(self)
 
         self.m_model = self.get_model_matrix()
@@ -103,8 +114,4 @@ class Aircraft_model(Cube, Aircraft):
 
     def rotate(self):
         self.rot = glm.vec3(self.rot.x + 45, self.rot.y + 0, self.rot.z + 0)
-
-
-if __name__ == "__main__":
-    print(Aircraft_model.__mro__)
 
