@@ -1,0 +1,81 @@
+{
+  "created_at": "2023-11-17T15:37:31.179614",
+  "version": "0.1",
+  "mtllibs": [
+    "LEGO.Creator_Plane.mtl"
+  ],
+  "vertex_buffers": [
+    {
+      "material": "ground_1",
+      "vertex_format": "N3F_V3F",
+      "byte_offset": 0,
+      "byte_length": 144
+    },
+    {
+      "material": "ldraw_15",
+      "vertex_format": "N3F_V3F",
+      "byte_offset": 144,
+      "byte_length": 9656928
+    },
+    {
+      "material": "ldraw_36",
+      "vertex_format": "N3F_V3F",
+      "byte_offset": 9657072,
+      "byte_length": 158976
+    },
+    {
+      "material": "ldraw_71",
+      "vertex_format": "N3F_V3F",
+      "byte_offset": 9816048,
+      "byte_length": 5099040
+    },
+    {
+      "material": "ldraw_72",
+      "vertex_format": "N3F_V3F",
+      "byte_offset": 14915088,
+      "byte_length": 638208
+    },
+    {
+      "material": "ldraw_1",
+      "vertex_format": "N3F_V3F",
+      "byte_offset": 15553296,
+      "byte_length": 4983840
+    },
+    {
+      "material": "ldraw_0",
+      "vertex_format": "N3F_V3F",
+      "byte_offset": 20537136,
+      "byte_length": 3485376
+    },
+    {
+      "material": "ldraw_4",
+      "vertex_format": "N3F_V3F",
+      "byte_offset": 24022512,
+      "byte_length": 2413728
+    },
+    {
+      "material": "ldraw_33",
+      "vertex_format": "N3F_V3F",
+      "byte_offset": 26436240,
+      "byte_length": 188928
+    },
+    {
+      "material": "ldraw_40",
+      "vertex_format": "N3F_V3F",
+      "byte_offset": 26625168,
+      "byte_length": 171648
+    },
+    {
+      "material": "ldraw_34",
+      "vertex_format": "N3F_V3F",
+      "byte_offset": 26796816,
+      "byte_length": 29952
+    },
+    {
+      "material": "ldraw_19",
+      "vertex_format": "N3F_V3F",
+      "byte_offset": 26826768,
+      "byte_length": 140544
+    }
+  ]
+}
