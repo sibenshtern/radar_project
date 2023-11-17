@@ -37,7 +37,6 @@ class BaseModel:
         m_model = glm.scale(m_model, self.scale)
         return m_model
 
-
     def render(self):
         self.update()
         self.vao.render()

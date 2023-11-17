@@ -20,15 +20,18 @@ class Scene(ModelingScene):
         self.radar = radar
         self.objects: list = objects
         self.signals: list = signals
+        self.radar_model = None
+        self.floor: list = []
         self.time: int = time
         self.duration: int = duration
         self.collision_detector = CollisionDetector(self.radar)
         self.tracker = Tracker()
 
-        self.show_signals = False
+        self.show_signals = True
 
         self.trajectories = []
         self.reflected = []
+        self.signals.extend(self.radar.emitter.send_signals(self.time))
         self.load()
 
     def add_object(self, obj):
@@ -39,13 +42,13 @@ class Scene(ModelingScene):
         add = self.add_object
 
         # radar station`
-        add(Cube(app, pos=(1, 0, 0)))
+        self.radar_model = (Cube(app, pos=(1, 0, 0)))
 
         # ground
         n, s = 30, 2
         for x in range(-n, n, s):
             for y in range(-n, n, s):
-                add(Cube(app, pos=(x, y, -2), tex_id=1))
+                self.floor.append(Cube(app, pos=(x, y, -2), tex_id=1))
 
     def update(self):
         if self.duration <= self.time:
@@ -55,14 +58,14 @@ class Scene(ModelingScene):
         for aircraft in self.objects:
             aircraft.update()
 
-        self.signals.extend(self.radar.emitter.send_signals(self.time))
+        # self.signals.extend(self.radar.emitter.send_signals(self.time))
         self.trajectories.append([signal.position(self.time) for signal in self.signals])
         self.reflected.append([signal.reflected for signal in self.signals])
 
-        #signals_detection_object = self.collision_detector.scan_objects(self.signals, self.objects, self.time)
+        signals_detection_object = self.collision_detector.scan_objects(self.signals, self.objects, self.time)
 
-        #for signal in signals_detection_object:
-        #    self.signals.remove(signal)
+        for signal in signals_detection_object:
+            self.signals.remove(signal)
 
         # signals_detection_radar = self.radar.receiver.ab_filter(self.collision_detector.scan_radar(self.signals, self.time))
         signals_detection_radar = self.collision_detector.scan_radar(self.signals, self.time)
@@ -80,6 +83,11 @@ class Scene(ModelingScene):
         self.update()
         for obj in self.objects:
             obj.render()
+
+        for obj in self.floor:
+            obj.render()
+
+        self.radar_model.render()
 
         if self.show_signals:
             self.render_signals()

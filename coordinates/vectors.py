@@ -90,6 +90,8 @@ class Vector3D(Vector):
         return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
 
     def __mul__(self, other: Union[int, float]):
+        if isinstance(other, tuple):
+            other = Vector3D(other[0], other[1], other[2])
         return Vector3D(self.x * other, self.y * other, self.z * other)
 
     def __imul__(self, other: Union[int, float]):

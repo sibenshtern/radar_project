@@ -53,7 +53,7 @@ class Window:
                 pg.quit()
                 sys.exit()
             if event.type == pg.KEYDOWN and event.key == pg.K_o:
-                self.scene.add_object(Aircraft_model(self, pos=(5, 5, 0)))
+                self.scene.add_object(Aircraft_model(self, pos=(5, 0, 10)))
             if event.type == pg.KEYDOWN and event.key == pg.K_v:
                 var = self.scene.objects[len(self.scene.objects) - 1]
                 var.change_speed()
@@ -68,6 +68,8 @@ class Window:
                 var.rotate()
             if event.type == pg.KEYDOWN and event.key == pg.K_i:
                 self.scene.show_signals = not self.scene.show_signals
+            if event.type == pg.KEYDOWN and event.key == pg.K_p:
+                self.scene.signals.extend(self.scene.radar.emitter.send_signals(self.scene.time))
 
     def render(self):
         # clear framebuffer and color in specified normalized form: 0 ... 255 -> 0.0 ... 1.0
