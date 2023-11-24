@@ -89,9 +89,11 @@ class Vector3D(Vector):
     def __abs__(self) -> float:
         return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
 
-    def __mul__(self, other: Union[int, float]):
+    def __mul__(self, other: Union[int, float, tuple, 'Vector3D']):
         if isinstance(other, tuple):
             other = Vector3D(other[0], other[1], other[2])
+        if isinstance(other, Vector3D):
+            return Vector3D(self.x * other.x, self.y * other.y, self.z * other.z)
         return Vector3D(self.x * other, self.y * other, self.z * other)
 
     def __imul__(self, other: Union[int, float]):
@@ -118,6 +120,9 @@ class Vector3D(Vector):
     def __iter__(self):
         for coordinate in (self.x, self.y, self.z):
             yield coordinate
+
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y and self.z == other.z
 
     def __str__(self) -> str:
         return f"Vector3D(x: {self.x}, y: {self.y}, z: {self.z})"

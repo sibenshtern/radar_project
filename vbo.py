@@ -86,9 +86,7 @@ class AircraftVBO(BaseVBO):
 
     def get_vertex_data(self):
         objs = pywavefront.Wavefront(
-            #'objects/WWII_Plane_Japan_Kawasaki_Ki-61_v1_L2.12b7c514a6-be0e-41be-b76d-35020244d960/14082_WWII_Plane_Japan_Kawasaki_Ki-61_v1_L2.obj',
-            '3d_models/Cat/20430_Cat_v1_NEW.obj',
-            #'objects/LEGO.Creator_Plane/LEGO.Creator_Plane.obj',
+            '3d_models/AirShip.obj',
             cache=True, parse=True)
         obj = objs.materials.popitem()[1]
         vertex_data = obj.vertices

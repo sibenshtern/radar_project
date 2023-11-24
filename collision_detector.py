@@ -11,7 +11,9 @@ class CollisionDetector:
         for signal in signals:
             for obj in objects:
                 if (not signal.reflected) and abs(signal.direction + signal.position(time) - obj.position) < obj.reflection_radius:
+                    print("departure power: ", signal.power)
                     signal.update(obj.position, -signal.speed, time)
+                    print("reflected power: ", signal.power)
                 elif (not signal.reflected) and abs(signal.direction + signal.position(time)) >= self.radar.emitter.range_of_action:
                     return_signals.add(signal)
         return list(return_signals)
@@ -20,5 +22,7 @@ class CollisionDetector:
         return_signals = []
         for signal in signals:
             if abs(signal.direction + signal.position(time) - self.radar.receiver.position) <= self.radar.receiver.radius:
+                signal.power = signal.power / (abs(signal.position(time)) ** 2)
+                print("reciever power: ", signal.power)
                 return_signals.append(signal)
         return return_signals

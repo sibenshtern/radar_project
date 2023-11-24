@@ -53,7 +53,7 @@ class Window:
                 pg.quit()
                 sys.exit()
             if event.type == pg.KEYDOWN and event.key == pg.K_o:
-                self.scene.add_object(AircraftModel(self, pos=(5, 0, 10), rot=(-90, 180, 0), scale=(0.05, 0.05, 0.05)))
+                self.scene.add_object(AircraftModel(self, pos=(5, 0, 10), rot=(0, 0, -90), scale=(0.5, 0.5, 0.5)))
             if event.type == pg.KEYDOWN and event.key == pg.K_v:
                 var = self.scene.objects[len(self.scene.objects) - 1]
                 var.change_speed()
