@@ -48,16 +48,7 @@ class Aircraft:
         # this code
 
         self.position += self.speed * dt + (self.acceleration * dt ** 2) / 2
-        # previous_speed = deepcopy(self.speed)
         self.speed += self.acceleration * dt
-
-        # if previous_speed != self.speed:
-        #     cross_vector = previous_speed * self.speed
-        #     cross = cross_vector.x + cross_vector.y + cross_vector.z
-        #
-        #     angle = cross / (abs(self.speed) * abs(previous_speed))
-        #
-        #     self.rot = glm.vec3((self.rot[0], self.rot[1], self.rot[2] + glm.radians(angle)))
 
         self.__trajectory.append(deepcopy(self.position))
 

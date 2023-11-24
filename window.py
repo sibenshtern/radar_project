@@ -1,7 +1,3 @@
-import time
-
-import pygame as pg
-import moderngl as mgl
 import sys
 
 from model import *
@@ -11,8 +7,6 @@ from mesh import Mesh
 from scene import Scene
 
 from radar import Radar
-from objects.aircraft import Aircraft
-from signal import Signal
 
 
 class Window:

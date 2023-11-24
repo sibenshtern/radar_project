@@ -17,11 +17,17 @@ class Tracker:
         self.objects: list[Tracked] = []
         self.archive_objects: list[Tracked] = []
 
-    def calculate_coordinate(self, signals: list[Signal]) -> list[C]:
-        return [Coordinates3D(0, 0, 0)]
+    def calculate_coordinate(self, signals: list[Signal], current_time: int) -> list[C]:
+        coordinates: list[C] = []
+
+        for signal in signals:
+            coordinates.append(signal.direction)
+            print(signal.direction)
+
+        return coordinates
 
     def process_signals(self, signals: list[Signal], current_time: int):
-        coordinates: list[C] = self.calculate_coordinate(signals)
+        coordinates: list[C] = self.calculate_coordinate(signals, current_time)
 
         for coordinate in coordinates:
             for obj in self.objects:
