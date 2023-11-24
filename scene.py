@@ -28,6 +28,7 @@ class Scene(ModelingScene):
         self.tracker = Tracker()
 
         self.show_signals = True
+        self.show_trajectories = True
 
         self.trajectories = []
         self.reflected = []
@@ -59,8 +60,8 @@ class Scene(ModelingScene):
             aircraft.update()
 
         # self.signals.extend(self.radar.emitter.send_signals(self.time))
-        self.trajectories.append([signal.position(self.time) for signal in self.signals])
-        self.reflected.append([signal.reflected for signal in self.signals])
+        #self.trajectories.append([signal.position(self.time) for signal in self.signals])
+        #self.reflected.append([signal.reflected for signal in self.signals])
 
         signals_detection_object = self.collision_detector.scan_objects(self.signals, self.objects, self.time)
 
@@ -73,16 +74,16 @@ class Scene(ModelingScene):
         for signal in signals_detection_radar:
             self.signals.remove(signal)
 
-        for signal in self.signals:
-            if (abs(signal.position(self.time)) > self.radar.radius):
-                self.signals.remove(signal)
-
-
     def render_signals(self):
         for signal in self.signals:
             signal_position = signal.position(self.time)
             Cube(self.app, pos=signal_position,
                  scale=(0.1, 0.1, 0.1)).render()
+
+    def render_trajectories(self):
+        for obj in self.objects:
+            for i in obj.get_trajectory()[::24]:
+                Cube(self.app, pos=i, scale=(0.05, 0.05, 0.05)).render()
 
     def render(self):
         self.update()
@@ -96,4 +97,7 @@ class Scene(ModelingScene):
 
         if self.show_signals:
             self.render_signals()
+
+        if self.show_trajectories:
+            self.render_trajectories()
 

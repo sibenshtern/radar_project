@@ -1,3 +1,7 @@
+import time
+
+import pygame as pg
+import moderngl as mgl
 import sys
 
 from model import *
@@ -7,6 +11,8 @@ from mesh import Mesh
 from scene import Scene
 
 from radar import Radar
+from objects.aircraft import Aircraft
+from signal import Signal
 
 
 class Window:
@@ -47,7 +53,7 @@ class Window:
                 pg.quit()
                 sys.exit()
             if event.type == pg.KEYDOWN and event.key == pg.K_o:
-                self.scene.add_object(AircraftModel(self, pos=(5, 0, 10), rot=(0, 0, -90), scale=(0.5, 0.5, 0.5)))
+                self.scene.add_object(AircraftModel(self, pos=(5, 0, 10), rot=(-90, 180, 0), scale=(0.05, 0.05, 0.05)))
             if event.type == pg.KEYDOWN and event.key == pg.K_v:
                 var = self.scene.objects[len(self.scene.objects) - 1]
                 var.change_speed()
@@ -64,6 +70,8 @@ class Window:
                 self.scene.show_signals = not self.scene.show_signals
             if event.type == pg.KEYDOWN and event.key == pg.K_p:
                 self.scene.signals.extend(self.scene.radar.emitter.send_signals(self.scene.time))
+            if event.type == pg.KEYDOWN and event.key == pg.K_t:
+                self.scene.show_trajectories = not self.scene.show_trajectories
 
     def render(self):
         # clear framebuffer and color in specified normalized form: 0 ... 255 -> 0.0 ... 1.0
