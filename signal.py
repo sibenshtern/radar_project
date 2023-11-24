@@ -23,7 +23,7 @@ class Signal:
         self.power: int = 150000 * (40 ** power_multiply) / (2 * math.pi)  # init power
         # self.beams: list[Beam] = beams
 
-    def update(self, new_direction: V, new_speed: V, new_time: int): # +aircraft
+    def update(self, new_direction: V, new_speed: V, new_time: int):  # +aircraft
         self.power = self.power * (10 ** self.power_multiply) / (4 * math.pi * abs(self.position(new_time)) ** 2)
         self.direction = new_direction
         self.speed = new_speed

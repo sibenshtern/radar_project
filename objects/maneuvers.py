@@ -1,6 +1,7 @@
 from copy import deepcopy
 from typing import TypeVar
 import math
+import glm
 
 import objects.aircraft as aircraft
 from coordinates import Vector3D, VectorGCS, VectorLECS
@@ -59,6 +60,8 @@ class CenterFold(Maneuver):
             self.object.speed.y * math.cos(self.angle)
 
         self.object.speed = self.object.speed.norm() * abs_speed
+
+        self.object.rot = glm.vec3(self.object.rot[0], self.object.rot[1], self.object.rot[2] + self.angle)
 
     def finish(self):
         pass

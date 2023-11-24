@@ -71,7 +71,7 @@ class Cube(BaseModel):
 
 class AircraftModel(BaseModel, Aircraft):
     def __init__(self, app, vao_name='aircraft', tex_id='aircraft',
-                 pos=(0, 0, 0), rot=(-90, 0, 0), scale=(1, 0.5, 1), speed=(-0.01, 0, 0)):
+                 pos=(0, 0, 0), rot=(-90, 0, 0), scale=(1, 0.5, 1), speed=(-0.05, 0, 0)):
         super().__init__(app, vao_name, tex_id, pos, rot, scale)
         Aircraft.__init__(self, vao_name, Coordinates3D(*pos), Vector3D(*speed), Vector3D(0, 0, 0))
         self.on_init()
@@ -101,15 +101,15 @@ class AircraftModel(BaseModel, Aircraft):
         self.m_model = self.get_model_matrix()
 
     def change_speed(self):
-        change_speed = ChangeSpeed(10, self, Vector3D(1, 1, 0))
+        change_speed = ChangeSpeed(240, self, Vector3D(-0.1, 0.1, 0))
         self.make_maneuver(change_speed)
 
     def centerfold(self):
-        centerfold = CenterFold(60, self)
+        centerfold = CenterFold(240, self)
         self.make_maneuver(centerfold)
 
     def change_height(self):
-        change_height = ChangeHeight(10, self, 15)
+        change_height = ChangeHeight(240, self, 15)
         self.make_maneuver(change_height)
 
     def rotate(self):
