@@ -8,9 +8,10 @@ from signal import Signal
 
 V = TypeVar('V', Vector, Vector3D, VectorGCS, VectorLECS)
 
+
 class Emitter:
 
-    def __init__(self, range_of_action: int,  characteristics: Optional[list] = None):
+    def __init__(self, range_of_action: int, characteristics: Optional[list] = None):
         self.range_of_action: int = range_of_action
         self.characteristics: list = characteristics
         self.fineness_of_coating = 10
@@ -43,13 +44,16 @@ class Receiver:
         self.radius: int = radius
         self.position: Coordinates = position
 
-
-    def get_signal_noise(self, signal:Signal, radius:int, time:int):
-        return signal.power * (time - signal.departure_time) * (0.035 * 40) ** 2 * 10 * 2 / ((4 * math.pi) ** 3 * radius ** 4 * 5 * 1,38 * 10 ** -23 * 290)
+    def get_signal_noise(self, signal: Signal, radius: int, time: int):
+        return signal.power * (time - signal.departure_time) * (0.035 * 40) ** 2 * 10 * 2 / (
+        (4 * math.pi) ** 3 * radius ** 4 * 5 * 1, 38 * 10 ** -23 * 290)
     # add coefficient
+
+
 class Radar:
 
     def __init__(self, emitter: Emitter = Emitter(80),
                  receiver: Receiver = Receiver(1, Coordinates3D(0, 0, 0))) -> None:
         self.emitter: Emitter = emitter
         self.receiver: Receiver = receiver
+        self.radius = 40

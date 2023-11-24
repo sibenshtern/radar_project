@@ -73,6 +73,11 @@ class Scene(ModelingScene):
         for signal in signals_detection_radar:
             self.signals.remove(signal)
 
+        for signal in self.signals:
+            if (abs(signal.position(self.time)) > self.radar.radius):
+                self.signals.remove(signal)
+
+
     def render_signals(self):
         for signal in self.signals:
             signal_position = signal.position(self.time)
