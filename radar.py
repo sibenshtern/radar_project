@@ -44,6 +44,9 @@ class Receiver:
         self.position: Coordinates = position
 
 
+    def get_signal_noise(self, signal:Signal, radius:int, time:int):
+        return signal.power * (time - signal.departure_time) * (0.035 * 40) ** 2 * 10 * 2 / ((4 * math.pi) ** 3 * radius ** 4 * 5 * 1,38 * 10 ** -23 * 290)
+    # add coefficient
 class Radar:
 
     def __init__(self, emitter: Emitter = Emitter(80),
