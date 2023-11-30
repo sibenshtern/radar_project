@@ -88,7 +88,7 @@ class AircraftVBO(BaseVBO):
 
     def get_vertex_data(self):
         objs = pywavefront.Wavefront(
-            '3d_models/AirShip.obj',
+            './3d_models/AirShip.obj',
             cache=True, parse=True)
         obj = objs.materials.popitem()[1]
         vertex_data = obj.vertices

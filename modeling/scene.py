@@ -1,10 +1,10 @@
-from model import Cube
+from modeling.model import Cube
 
-from radar import Radar
+from logic.radar import Radar
 from objects.aircraft import Aircraft
-from signal import Signal
-from collision_detector import CollisionDetector
-from tracker import Tracker
+from logic.signal import Signal
+from logic.collision_detector import CollisionDetector
+from logic.tracker import Tracker
 
 
 class Scene:

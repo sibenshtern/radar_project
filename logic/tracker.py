@@ -3,7 +3,7 @@ import logging
 
 from objects import Tracked
 from coordinates.coordinates import Coordinates3D, CoordinatesGCS
-from radar import Signal
+from logic.radar import Signal
 
 C = TypeVar('C', Coordinates3D, CoordinatesGCS)
 

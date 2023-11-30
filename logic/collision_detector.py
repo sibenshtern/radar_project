@@ -1,5 +1,5 @@
 from objects.aircraft import Aircraft
-from signal import Signal
+from logic.signal import Signal
 
 
 # class for detect collision in scene
