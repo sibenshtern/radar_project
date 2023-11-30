@@ -1,14 +1,15 @@
 from typing import TypeVar
+import logging
 
 from objects import Tracked
-from coordinates.coordinates import Coordinates3D, CoordinatesGCS, CoordinatesLECS
+from coordinates.coordinates import Coordinates3D, CoordinatesGCS
 from radar import Signal
 
-C = TypeVar('C', CoordinatesGCS, CoordinatesLECS, Coordinates3D)
+C = TypeVar('C', Coordinates3D, CoordinatesGCS)
 
 EPSILON = 1
-REQUIRED_MINIMUM_TIME = 10
-STOP_TRACKING_TIME = 5
+REQUIRED_MINIMUM_TIME = 3 * 24
+STOP_TRACKING_TIME = 10 * 24
 
 
 class Tracker:
@@ -16,28 +17,32 @@ class Tracker:
     def __init__(self):
         self.objects: list[Tracked] = []
         self.archive_objects: list[Tracked] = []
+        self.__logger: logging.Logger = logging.getLogger(__name__)
 
-    def calculate_coordinate(self, signals: list[Signal], current_time: int) -> list[C]:
+    def __config_logger(self):
+        pass
+
+    def calculate_coordinate(self, signals: list[Signal]) -> list[C]:
         coordinates: list[C] = []
 
         for signal in signals:
             coordinates.append(signal.direction)
-            print(signal.direction)
 
         return coordinates
 
     def process_signals(self, signals: list[Signal], current_time: int):
-        coordinates: list[C] = self.calculate_coordinate(signals, current_time)
+        coordinates: list[C] = self.calculate_coordinate(signals)
 
         for coordinate in coordinates:
             for obj in self.objects:
-                if abs(obj.trajectory[-1] - coordinate) < EPSILON:
+                if (EPSILON / 1000 < abs(obj.trajectory[-1] - coordinate) <
+                        EPSILON):
                     obj.trajectory.append(coordinate)
                     obj.last_tracked_time = current_time
                     break
-            else:
-                self.objects.append(Tracked(current_time))
-                self.objects[-1].trajectory.append(coordinate)
+                else:
+                    self.objects.append(Tracked(current_time))
+                    self.objects[-1].trajectory.append(coordinate)
 
         self.update_objects(current_time)
 

@@ -1,7 +1,7 @@
 import glm
 import pygame as pg
 
-FOV = 50    # deg
+FOV = 50  # deg
 NEAR = 0.1
 FAR = 100
 SPEED = 0.01
@@ -18,7 +18,6 @@ class Camera:
         self.forward = glm.vec3(0, 1, 0)
         self.yaw = yaw
         self.pitch = pitch
-        self.roll = -10
         # view matrix
         self.m_view = self.get_view_matrix()
         # projection matrix
@@ -32,18 +31,16 @@ class Camera:
         self.pitch = max(-89, min(89, self.pitch))
 
     def update_camera_vectors(self):
-        yaw, pitch, roll = glm.radians(self.yaw), glm.radians(self.pitch), glm.radians(self.roll)
+        yaw, pitch = glm.radians(self.yaw), glm.radians(self.pitch)
 
         self.forward.x = glm.cos(yaw) * glm.cos(pitch)
         self.forward.y = glm.sin(pitch)
         self.forward.z = glm.sin(yaw) * glm.cos(pitch)
 
-        # roll_mat = glm.rotate(glm.mat4(1.0), roll, self.forward)
-
-        self.forward = glm.mat3(1, 0, 0, 0, 0, 1, 0, -1, 0) * glm.normalize(self.forward)
+        self.forward = glm.mat3(1, 0, 0, 0, 0, 1, 0, -1, 0) * glm.normalize(
+            self.forward)
         self.right = glm.normalize(glm.cross(self.forward, glm.vec3(0, 0, 1)))
         self.up = glm.normalize(glm.cross(self.right, self.forward))
-        # self.up = glm.mat3(roll_mat) * self.up
 
     def update(self):
         self.move()

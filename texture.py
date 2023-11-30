@@ -5,12 +5,13 @@ import moderngl as mgl
 class Texture:
     def __init__(self, ctx):
         self.ctx = ctx
-        self.textures = {}
-        self.textures[0] = self.get_texture(path='textures/test.png')
-        self.textures[1] = self.get_texture(path='textures/grass.png')
-        self.textures['aircraft'] = self.get_texture(
-            path='textures/Aircraft_Texture.png'
-        )
+        self.textures = {
+            0: self.get_texture(path='textures/test.png'),
+            1: self.get_texture(path='textures/grass.png'),
+            'aircraft': self.get_texture(
+                path='textures/Aircraft_Texture.png'
+            )
+        }
 
     def get_texture(self, path):
         texture = pg.image.load(path).convert()

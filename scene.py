@@ -1,20 +1,15 @@
-from model import *
+from model import Cube
 
 from radar import Radar
 from objects.aircraft import Aircraft
 from signal import Signal
-from modeling import Scene as ModelingScene
-from copy import deepcopy
 from collision_detector import CollisionDetector
 from tracker import Tracker
-from coordinates.coordinates import Coordinates3D
-
-import pygame as pg
 
 
-class Scene(ModelingScene):
-    def __init__(self, app, radar: Radar, objects: list[Aircraft], signals: list[Signal], duration: int, time):
-        super().__init__(radar, objects, signals, duration)
+class Scene:
+    def __init__(self, app, radar: Radar, objects: list[Aircraft],
+                 signals: list[Signal], duration: int, time):
         self.app = app
 
         self.radar = radar
@@ -40,7 +35,6 @@ class Scene(ModelingScene):
 
     def load(self):
         app = self.app
-        add = self.add_object
 
         # radar station`
         self.radar_model = (Cube(app, pos=(1, 0, 0)))
@@ -59,17 +53,17 @@ class Scene(ModelingScene):
         for aircraft in self.objects:
             aircraft.update()
 
-        # self.signals.extend(self.radar.emitter.send_signals(self.time))
-        #self.trajectories.append([signal.position(self.time) for signal in self.signals])
-        #self.reflected.append([signal.reflected for signal in self.signals])
-
-        signals_detection_object = self.collision_detector.scan_objects(self.signals, self.objects, self.time)
+        signals_detection_object = self.collision_detector.scan_objects(
+            self.signals, self.objects, self.time)
 
         for signal in signals_detection_object:
             self.signals.remove(signal)
 
-        # signals_detection_radar = self.radar.receiver.ab_filter(self.collision_detector.scan_radar(self.signals, self.time))
-        signals_detection_radar = self.collision_detector.scan_radar(self.signals, self.time)
+        # signals_detection_radar =
+        # self.radar.receiver.ab_filter(
+        # self.collision_detector.scan_radar(self.signals, self.time))
+        signals_detection_radar = (
+            self.collision_detector.scan_radar(self.signals, self.time))
         self.tracker.process_signals(signals_detection_radar, self.time)
         for signal in signals_detection_radar:
             self.signals.remove(signal)

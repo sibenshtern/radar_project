@@ -61,7 +61,8 @@ class CenterFold(Maneuver):
 
         self.object.speed = self.object.speed.norm() * abs_speed
 
-        self.object.rot = glm.vec3(self.object.rot[0], self.object.rot[1], self.object.rot[2] + self.angle)
+        self.object.rot = glm.vec3(self.object.rot[0], self.object.rot[1],
+                                   self.object.rot[2] + self.angle)
 
     def finish(self):
         pass
@@ -75,7 +76,8 @@ class ChangeHeight(Maneuver):
         self.new_height = new_height
         self.__previous_speed: V = deepcopy(obj.speed)
 
-        self.speed_z = (self.new_height - self.object.position.z) / self.duration
+        self.speed_z = ((self.new_height - self.object.position.z) /
+                        self.duration)
 
     def prepare(self):
         if isinstance(self.object.speed, Vector3D):

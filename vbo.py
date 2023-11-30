@@ -1,13 +1,15 @@
+from typing import Optional
+
 import numpy as np
 import pywavefront
-import moderngl as mgl
 
 
 class VBO:
     def __init__(self, ctx):
-        self.vbos = {}
-        self.vbos['cube'] = CubeVBO(ctx)
-        self.vbos['aircraft'] = AircraftVBO(ctx)
+        self.vbos = {
+            'cube': CubeVBO(ctx),
+            'aircraft': AircraftVBO(ctx)
+        }
 
     def destroy(self):
         [vbo.destroy() for vbo in self.vbos.values()]
@@ -17,8 +19,8 @@ class BaseVBO:
     def __init__(self, ctx):
         self.ctx = ctx
         self.vbo = self.get_vbo()
-        self.format: str = None
-        self.attrib: list = None
+        self.format: Optional[str] = None
+        self.attrib: Optional[list] = None
 
     def get_vertex_data(self): ...
 

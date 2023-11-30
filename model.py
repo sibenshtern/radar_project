@@ -1,8 +1,4 @@
-import numpy as np
 import glm
-import pygame as pg
-import moderngl as mgl
-import numpy
 
 from objects.aircraft import Aircraft
 from coordinates.vectors import Vector3D
@@ -12,10 +8,11 @@ from objects.maneuvers import CenterFold, ChangeSpeed, ChangeHeight
 
 
 class BaseModel:
-    def __init__(self, app, vao_name, tex_id, pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1)):
+    def __init__(self, app, vao_name, tex_id, pos=(0, 0, 0), rot=(0, 0, 0),
+                 scale=(1, 1, 1)):
         self.app = app
         self.position = pos
-        self.rot = glm.vec3([glm.radians(a) for a in rot])
+        self.rot = glm.vec3(*(glm.radians(a) for a in rot))
         self.scale = scale
         self.vao = app.mesh.vao.vaos[vao_name]
         self.m_model = self.get_model_matrix()
@@ -43,7 +40,8 @@ class BaseModel:
 
 
 class Cube(BaseModel):
-    def __init__(self, app, vao_name='cube', tex_id=0, pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1)):
+    def __init__(self, app, vao_name='cube', tex_id=0, pos=(0, 0, 0),
+                 rot=(0, 0, 0), scale=(1, 1, 1)):
         super().__init__(app, vao_name, tex_id, pos, rot, scale)
         self.on_init()
 
@@ -71,9 +69,11 @@ class Cube(BaseModel):
 
 class AircraftModel(BaseModel, Aircraft):
     def __init__(self, app, vao_name='aircraft', tex_id='aircraft',
-                 pos=(0, 0, 0), rot=(-90, 0, 0), scale=(1, 0.5, 1), speed=(-0.05, 0, 0)):
+                 pos=(0, 0, 0), rot=(-90, 0, 0), scale=(1, 0.5, 1),
+                 speed=(-0.05, 0, 0), name='aircraft'):
         super().__init__(app, vao_name, tex_id, pos, rot, scale)
-        Aircraft.__init__(self, vao_name, Coordinates3D(*pos), Vector3D(*speed), Vector3D(0, 0, 0))
+        Aircraft.__init__(self, name, Coordinates3D(*pos), Vector3D(*speed),
+                          Vector3D(0, 0, 0))
         self.on_init()
 
     def on_init(self):
@@ -114,4 +114,3 @@ class AircraftModel(BaseModel, Aircraft):
 
     def rotate(self):
         self.rot = glm.vec3(self.rot.x + 45, self.rot.y + 0, self.rot.z + 0)
-

@@ -93,7 +93,8 @@ class Vector3D(Vector):
         if isinstance(other, tuple):
             other = Vector3D(other[0], other[1], other[2])
         if isinstance(other, Vector3D):
-            return Vector3D(self.x * other.x, self.y * other.y, self.z * other.z)
+            return Vector3D(self.x * other.x, self.y * other.y,
+                            self.z * other.z)
         return Vector3D(self.x * other, self.y * other, self.z * other)
 
     def __imul__(self, other: Union[int, float]):
