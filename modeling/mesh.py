@@ -1,5 +1,5 @@
-from vao import VAO
-from texture import Texture
+from modeling.vao import VAO
+from modeling.texture import Texture
 
 
 class Mesh:

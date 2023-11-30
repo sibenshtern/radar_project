@@ -2,13 +2,13 @@ import pygame as pg
 import moderngl as mgl
 import sys
 
-from model import AircraftModel
-from camera import Camera
-from light import Light
-from mesh import Mesh
-from scene import Scene
+from modeling.model import AircraftModel
+from modeling.camera import Camera
+from modeling.light import Light
+from modeling.mesh import Mesh
+from modeling.scene import Scene
 
-from radar import Radar
+from logic.radar import Radar
 
 
 class Window:
