@@ -2,10 +2,12 @@ from objects.aircraft import Aircraft
 from signal import Signal
 
 
+# class for detect collision in scene
 class CollisionDetector:
     def __init__(self, radar):
         self.radar = radar
 
+    # search for collision between objects and signals
     def scan_objects(self, signals: list[Signal], objects: list[Aircraft],
                      time):
         return_signals = set()
@@ -21,6 +23,7 @@ class CollisionDetector:
                     return_signals.add(signal)
         return list(return_signals)
 
+    # search for collision between radar and reflective signals
     def scan_radar(self, signals: list[Signal], time):
         return_signals = []
         for signal in signals:

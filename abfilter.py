@@ -2,11 +2,14 @@ from objects import Tracked
 from coordinates import Coordinates
 
 
+# class for alpha beta filter
+
 class ABFilter:
     def __init__(self, kmax=10):
         self.t = 1  # 1 condition unit
         self.kmax = kmax
 
+    # change filteredValue(add obj.trajectory[-1]), filteredVelocity, extrapolatedValue, extrapolatedVelocity
     def filter(self, obj: Tracked, position: Coordinates):
 
         k = len(obj.trajectory)

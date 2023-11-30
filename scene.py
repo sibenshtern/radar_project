@@ -45,6 +45,7 @@ class Scene:
             for y in range(-n, n, s):
                 self.floor.append(Cube(app, pos=(x, y, -2), tex_id=1))
 
+    # update all objects in scene
     def update(self):
         if self.duration <= self.time:
             return
@@ -59,15 +60,13 @@ class Scene:
         for signal in signals_detection_object:
             self.signals.remove(signal)
 
-        # signals_detection_radar =
-        # self.radar.receiver.ab_filter(
-        # self.collision_detector.scan_radar(self.signals, self.time))
         signals_detection_radar = (
             self.collision_detector.scan_radar(self.signals, self.time))
         self.tracker.process_signals(signals_detection_radar, self.time)
         for signal in signals_detection_radar:
             self.signals.remove(signal)
 
+    # emit signals
     def render_signals(self):
         for signal in self.signals:
             signal_position = signal.position(self.time)

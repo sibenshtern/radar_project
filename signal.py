@@ -14,7 +14,7 @@ Beam = namedtuple("Beam", ["power", "direction_angle"])
 class Signal:
 
     def __init__(self, departure_time: int, direction: V,
-                 speed: V, power_multiply: int):  # , beams: list[Beam]):
+                 speed: V, power_multiply: int):
         self.departure_time: int = departure_time
         self.direction: V = direction
         self.speed: V = speed
@@ -23,8 +23,8 @@ class Signal:
 
         # init power
         self.power: int = 150000 * (40 ** power_multiply) / (2 * math.pi)
-        # self.beams: list[Beam] = beams
 
+    # update signal if it collision with object
     def update(self, new_direction: V, new_speed: V, new_time: int):
         self.power = (self.power * (10 ** self.power_multiply) /
                       (4 * math.pi * abs(self.position(new_time)) ** 2))
@@ -33,6 +33,7 @@ class Signal:
         self.departure_time = new_time
         self.reflected = True
 
+    # get signal position
     def position(self, time: int) -> V:
         return self.direction + (abs(time - self.departure_time) * self.speed)
 
