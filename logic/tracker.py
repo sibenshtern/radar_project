@@ -26,6 +26,8 @@ class Tracker:
         coordinates: list[C] = []
 
         for signal in signals:
+
+            r = (signal.init_power / signal.power ** 1/4)
             coordinates.append(signal.direction)
 
         return coordinates
