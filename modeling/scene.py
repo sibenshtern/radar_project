@@ -64,10 +64,14 @@ class Scene:
 
         signals_detection_radar = (
             self.collision_detector.scan_radar(self.signals, self.time))
-        self.tracker.process_signals(signals_detection_radar, self.time)
+
+        # delete return signals
         for signal in signals_detection_radar:
             self.signals.remove(signal)
-            print("aboba")
+
+        self.tracker.process_signals(signals_detection_radar, self.time)
+
+        # if signals too small or far away
         for signal in self.signals:
             if signal.power / abs(signal.position(self.time)) ** 2 < 70 or \
                     abs(signal.position(self.time)) > self.radar.radius:

@@ -1,5 +1,6 @@
 from typing import TypeVar
 import logging
+import math
 
 from objects import Tracked
 from coordinates.coordinates import Coordinates3D, CoordinatesGCS
@@ -11,6 +12,15 @@ EPSILON = 1
 REQUIRED_MINIMUM_TIME = 3 * 24
 STOP_TRACKING_TIME = 10 * 24
 
+PULSE_POWER_OF_EMITTED_SIGNAL = 150000 #w
+TRANSMITTING_ANTENNA_GAINS = 40
+RECEIVING_ANTENNA_GAINS = 40
+WAVELENGTH = 0.035 # meters
+EPR_TARGET = 10 # meters ^ 2
+TOTAL_LOSS_FACTOR = 1.5 * 1.5 * 1
+RECEIVER_NOISE_FACTOR = 5 # decibel
+BOLTZMANN_CONSTANT = 1.38 * (10 ** -23)
+STANDART_TEMPERATURE = 290
 
 class Tracker:
 
@@ -22,18 +32,19 @@ class Tracker:
     def __config_logger(self):
         pass
 
-    def calculate_coordinate(self, signals: list[Signal]) -> list[C]:
+    def calculate_coordinate(self, signals: list[Signal], time) -> list[C]:
         coordinates: list[C] = []
 
         for signal in signals:
-
-            r = (signal.init_power / signal.power ** 1/4)
-            coordinates.append(signal.direction)
+            r = (signal.init_power / signal.power ** 1 / 4)
+            if self.get_signal_noise(signal, r, time) > 13:
+                coordinates.append(-signal.speed * r)
+                print(signal.speed * r, signal.direction)
 
         return coordinates
 
     def process_signals(self, signals: list[Signal], current_time: int):
-        coordinates: list[C] = self.calculate_coordinate(signals)
+        coordinates: list[C] = self.calculate_coordinate(signals, current_time)
 
         for coordinate in coordinates:
             for obj in self.objects:
@@ -56,3 +67,11 @@ class Tracker:
             if obj.tracked_time >= REQUIRED_MINIMUM_TIME:
                 self.archive_objects.append(obj)
             self.objects.remove(obj)
+
+    # get signal noise ratio
+    def get_signal_noise(self, signal: Signal, radius: int, time: int):
+        return 2 * PULSE_POWER_OF_EMITTED_SIGNAL * time * \
+            TRANSMITTING_ANTENNA_GAINS * RECEIVING_ANTENNA_GAINS * \
+            (WAVELENGTH ** 2) * EPR_TARGET * TOTAL_LOSS_FACTOR / \
+            (((4 * math.pi) ** 3) * radius ** 4 * RECEIVER_NOISE_FACTOR *
+             BOLTZMANN_CONSTANT * STANDART_TEMPERATURE)

@@ -7,17 +7,6 @@ from logic.signal import Signal
 
 V = TypeVar('V', Vector, Vector3D, VectorGCS, VectorLECS)
 
-PULSE_POWER_OF_EMITTED_SIGNAL = 150000 #w
-TRANSMITTING_ANTENNA_GAINS = 40
-RECEIVING_ANTENNA_GAINS = 40
-WAVELENGTH = 0.035 # meters
-EPR_TARGET = 10 # meters ^ 2
-TOTAL_LOSS_FACTOR = 1.5 * 1.5 * 1
-RECEIVER_NOISE_FACTOR = 5 # decibel
-BOLTZMANN_CONSTANT = 1,38 * (10 ** -23)
-STANDART_TEMPERATURE = 290
-
-
 # сlass for emitter from radar
 class Emitter:
 
@@ -62,15 +51,6 @@ class Receiver:
         self.received_signals: list = []
         self.radius: int = radius
         self.position: Coordinates = position
-
-    # get signal noise ratio
-    def get_signal_noise(self, signal: Signal, radius: int, time: int):
-        return ((2 * PULSE_POWER_OF_EMITTED_SIGNAL * time *
-                TRANSMITTING_ANTENNA_GAINS * RECEIVING_ANTENNA_GAINS *
-                (WAVELENGTH ** 2) * EPR_TARGET * TOTAL_LOSS_FACTOR) /
-                ((4 * math.pi) ** 3) * radius ** 4 * RECEIVER_NOISE_FACTOR *
-                BOLTZMANN_CONSTANT * STANDART_TEMPERATURE)
-
 
 
 class Radar:
