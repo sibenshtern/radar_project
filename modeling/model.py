@@ -92,13 +92,7 @@ class AircraftModel(BaseModel, Aircraft):
         self.program['light.Is'].write(self.app.light.Is)
 
     def update(self):
-        self.texture.use()
-        self.program['m_model'].write(self.m_model)
-        self.program['m_view'].write(self.app.camera.m_view)
-        self.program['camPos'].write(self.app.camera.position)
         Aircraft.update(self)
-
-        self.m_model = self.get_model_matrix()
 
     def change_speed(self):
         change_speed = ChangeSpeed(240, self, Vector3D(-0.1, 0.1, 0))
@@ -114,3 +108,12 @@ class AircraftModel(BaseModel, Aircraft):
 
     def rotate(self):
         self.rot = glm.vec3(self.rot.x + 45, self.rot.y + 0, self.rot.z + 0)
+
+    def render(self):
+        self.texture.use()
+        self.program['m_model'].write(self.m_model)
+        self.program['m_view'].write(self.app.camera.m_view)
+        self.program['camPos'].write(self.app.camera.position)
+        self.m_model = self.get_model_matrix()
+
+        self.vao.render()

@@ -17,6 +17,7 @@ class Scene:
         self.signals: list = signals
         self.radar_model = None
         self.floor: list = []
+        self.is_simulation = False
         self.time: int = time
         self.duration: int = duration
         self.collision_detector = CollisionDetector(self.radar)
@@ -37,7 +38,7 @@ class Scene:
         app = self.app
 
         # radar station`
-        self.radar_model = (Cube(app, pos=(1, 0, 0)))
+        self.radar_model = Cube(app, pos=(1, 0, 0))
 
         # ground
         n, s = 30, 2
@@ -47,8 +48,9 @@ class Scene:
 
     # update all objects in scene
     def update(self):
-        if self.duration <= self.time:
+        if self.duration <= self.time or not self.is_simulation:
             return
+
         self.time += 1
 
         for aircraft in self.objects:
@@ -79,7 +81,6 @@ class Scene:
                 Cube(self.app, pos=i, scale=(0.05, 0.05, 0.05)).render()
 
     def render(self):
-        self.update()
         for obj in self.objects:
             obj.render()
 

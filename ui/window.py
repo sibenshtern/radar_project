@@ -63,8 +63,8 @@ class Window:
                 sys.exit()
             if event.type == pg.KEYDOWN and event.key == pg.K_o:
                 self.scene.add_object(
-                    AircraftModel(self, pos=(5, 0, 10), rot=(-90, 180, 0),
-                                  scale=(0.05, 0.05, 0.05),
+                    AircraftModel(self, pos=(5, 0, 10), rot=(0, 0, -90),
+                                  scale=(0.2, 0.2, 0.2),
                                   name=f'aircraft #{self.__aircraft_index}')
                 )
                 self.__aircraft_index += 1
@@ -88,6 +88,8 @@ class Window:
                 )
             if event.type == pg.KEYDOWN and event.key == pg.K_t:
                 self.scene.show_trajectories = not self.scene.show_trajectories
+            if event.type == pg.KEYDOWN and event.key == pg.K_m:
+                self.scene.is_simulation = not self.scene.is_simulation
 
     def render(self):
         # clear framebuffer and color in
@@ -108,10 +110,8 @@ class Window:
             self.get_time()
             self.check_events()
 
-            for obj in self.scene.objects:
-                obj.update()
-
             self.camera.update()
+            self.scene.update()
             self.render()
             self.delta_time = self.clock.tick(24)
 
