@@ -31,8 +31,8 @@ class Window:
                                           flags=pg.OPENGL | pg.DOUBLEBUF)
 
         # mouse settings
-        pg.event.set_grab(True)
-        pg.mouse.set_visible(False)
+        # pg.event.set_grab(True)
+        # pg.mouse.set_visible(False)
         # detect and use existing opengl context
         self.ctx = mgl.create_context()
 
@@ -52,7 +52,7 @@ class Window:
         self.scene = Scene(self, Radar(), [], [], 10000,
                            self.time)
 
-        self.__aircraft_index = 0
+        self.aircraft_index = 0
 
     def check_events(self):
         for event in pg.event.get():
@@ -65,9 +65,9 @@ class Window:
                 self.scene.add_object(
                     AircraftModel(self, pos=(5, 0, 10), rot=(0, 0, -90),
                                   scale=(0.2, 0.2, 0.2),
-                                  name=f'aircraft #{self.__aircraft_index}')
+                                  name=f'aircraft #{self.aircraft_index}')
                 )
-                self.__aircraft_index += 1
+                self.aircraft_index += 1
             if event.type == pg.KEYDOWN and event.key == pg.K_v:
                 var = self.scene.objects[len(self.scene.objects) - 1]
                 var.change_speed()

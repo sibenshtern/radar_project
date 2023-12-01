@@ -10,6 +10,9 @@ class Texture:
             1: self.get_texture(path='./textures/grass_t.jpg'),
             'aircraft': self.get_texture(
                 path='./textures/Aircraft_Texture.png'
+            ),
+            'radar': self.get_texture(
+                path='./textures/img.png'
             )
         }
 

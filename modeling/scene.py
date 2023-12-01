@@ -1,4 +1,4 @@
-from modeling.model import Cube
+from modeling.model import Cube, RadarModel
 
 from logic.radar import Radar
 from objects.aircraft import Aircraft

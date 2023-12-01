@@ -15,6 +15,10 @@ class VAO:
             'aircraft': self.get_vao(
                 program=self.program.programs['default'],
                 vbo=self.vbo.vbos['aircraft']
+            ),
+            'radar': self.get_vao(
+                program=self.program.programs['default'],
+                vbo=self.vbo.vbos['radar']
             )
         }
 
