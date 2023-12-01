@@ -69,9 +69,8 @@ class Scene:
             self.signals.remove(signal)
             print("aboba")
         for signal in self.signals:
-            #print(signal.power / abs(signal.position(self.time)) ** 2, abs(signal.position((self.time))))
-            if signal.power / abs(signal.position(self.time)) ** 2 < 70: #or \
-                    #abs(signal.position(self.time)) > self.radar.radius:
+            if signal.power / abs(signal.position(self.time)) ** 2 < 70 or \
+                    abs(signal.position(self.time)) > self.radar.radius:
                 self.signals.remove(signal)
 
     # emit signals
