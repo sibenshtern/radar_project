@@ -113,7 +113,7 @@ class Window:
             self.camera.update()
             self.scene.update()
             self.render()
-            self.delta_time = self.clock.tick(24)
+            self.delta_time = self.clock.tick(10)
 
 
 if __name__ == '__main__':

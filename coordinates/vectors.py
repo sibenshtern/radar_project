@@ -126,10 +126,10 @@ class Vector3D(Vector):
         return self.x == other.x and self.y == other.y and self.z == other.z
 
     def __str__(self) -> str:
-        return f"Vector3D(x: {self.x}, y: {self.y}, z: {self.z})"
+        return f"Vector3D(x: {self.x:.3f}, y: {self.y:.3f}, z: {self.z:.3f})"
 
     def __repr__(self) -> str:
-        return f"Vector3D({self.x}, {self.y}, {self.z})"
+        return f"Vector3D({self.x:.3f}, {self.y:.3f}, {self.z:.3f})"
 
 
 class VectorGCS(Vector3D):

@@ -31,6 +31,8 @@ class Scene:
         self.signals.extend(self.radar.emitter.send_signals(self.time))
         self.load()
 
+        self.__special_points = []
+
     def add_object(self, obj):
         self.objects.append(obj)
 
@@ -69,7 +71,10 @@ class Scene:
         for signal in signals_detection_radar:
             self.signals.remove(signal)
 
-        self.tracker.process_signals(signals_detection_radar, self.time)
+        points = self.tracker.process_signals(signals_detection_radar, self.time)
+        print(len(points))
+        for point in points:
+            self.__special_points.append(Cube(self.app, pos=point, scale=(0.1, 0.1, 0.1)))
 
         # if signals too small or far away
         for signal in self.signals:
@@ -79,7 +84,7 @@ class Scene:
         if self.time % 10 == 0:
             self.signals.extend(self.radar.emitter.send_signals(self.time))
 
-        print(f"Tracked: {self.tracker.objects}")
+        # print(f"Tracked: {self.tracker.objects}")
 
     # emit signals
     def render_signals(self):
@@ -99,6 +104,11 @@ class Scene:
 
         for obj in self.floor:
             obj.render()
+
+        for point in self.__special_points:
+            point.render()
+
+        # self.__special_points.clear()
 
         self.radar_model.render()
 
