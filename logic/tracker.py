@@ -37,7 +37,7 @@ class Tracker:
         for signal in signals:
             r = (signal.init_power / signal.power) ** (1 / 4)
             if self.get_signal_noise(signal, r, time) > 13:
-                coordinates.append(-signal.speed * r * 2s)
+                coordinates.append(-signal.speed * r * 2)
 
         return coordinates
 
@@ -46,6 +46,27 @@ class Tracker:
 
         ms = MeanShift()
         mean_shift_result = ms.cluster(coordinates, kernel_bandwidth=1)
+
+        if len(mean_shift_result.original_points):
+            original_points = mean_shift_result.original_points
+            shifted_points = mean_shift_result.shifted_points
+            cluster_assignments = mean_shift_result.cluster_ids
+
+            x = original_points[:, 0]
+            y = original_points[:, 1]
+            z = original_points[:, 2]
+            Cluster = cluster_assignments
+            centers = shifted_points
+
+            print(x, y, z, centers)
+
+            fig = plt.figure()
+            ax = fig.add_subplot(projection='3d')
+            scatter = ax.scatter(x, y, z, c=Cluster, s=50)
+            for i, j, k in centers:
+                ax.scatter(i, j, k, s=50, c='red', marker='+')
+            plt.colorbar(scatter)
+            fig.savefig(f"log/image_{current_time}.jpg")
 
         calculated = []
         for point in mean_shift_result.shifted_points:
