@@ -78,7 +78,7 @@ class CubeVBO(BaseVBO):
         vertex_data = np.hstack([normals, vertex_data])
         vertex_data = np.hstack([tex_coord_data, vertex_data])
 
-        return vertex_data
+        return vertex_data / 2
 
 
 class AircraftVBO(BaseVBO):

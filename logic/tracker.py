@@ -5,12 +5,13 @@ import math
 from objects import Tracked
 from coordinates.coordinates import Coordinates3D, CoordinatesGCS
 from logic.radar import Signal
+from logger import get_logger
 
 C = TypeVar('C', Coordinates3D, CoordinatesGCS)
 
-EPSILON = 1
+EPSILON = 10
 REQUIRED_MINIMUM_TIME = 3 * 24
-STOP_TRACKING_TIME = 10 * 24
+STOP_TRACKING_TIME = 100 * 24
 
 PULSE_POWER_OF_EMITTED_SIGNAL = 150000  # w
 TRANSMITTING_ANTENNA_GAINS = 40
@@ -28,10 +29,6 @@ class Tracker:
     def __init__(self):
         self.objects: list[Tracked] = []
         self.archive_objects: list[Tracked] = []
-        self.__logger: logging.Logger = logging.getLogger(__name__)
-
-    def __config_logger(self):
-        pass
 
     def calculate_coordinate(self, signals: list[Signal], time) -> list[C]:
         coordinates: list[C] = []
@@ -40,7 +37,6 @@ class Tracker:
             r = (signal.init_power / signal.power) ** (1 / 2)
             if self.get_signal_noise(signal, r, time) > 13:
                 coordinates.append(-signal.speed * r)
-                print(signal.speed * r, signal.direction)
 
         return coordinates
 
@@ -54,9 +50,9 @@ class Tracker:
                     obj.trajectory.append(coordinate)
                     obj.last_tracked_time = current_time
                     break
-                else:
-                    self.objects.append(Tracked(current_time))
-                    self.objects[-1].trajectory.append(coordinate)
+            else:
+                self.objects.append(Tracked(current_time))
+                self.objects[-1].trajectory.append(coordinate)
 
         self.update_objects(current_time)
 

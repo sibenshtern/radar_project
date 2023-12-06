@@ -38,10 +38,10 @@ class Scene:
         app = self.app
 
         # radar station`
-        self.radar_model = Cube(app, pos=(1, 0, 0))
+        self.radar_model = Cube(app, pos=(1, 0, -1))
 
         # ground
-        n, s = 30, 2
+        n, s = 40, 1
         for x in range(-n, n, s):
             for y in range(-n, n, s):
                 self.floor.append(Cube(app, pos=(x, y, -2), tex_id=1))
@@ -76,12 +76,17 @@ class Scene:
             if self.tracker.get_signal_noise(signal, abs(signal.position(self.time)), self.time) < 13:
                 self.signals.remove(signal)
 
+        if self.time % 10 == 0:
+            self.signals.extend(self.radar.emitter.send_signals(self.time))
+
+        print(f"Tracked: {self.tracker.objects}")
+
     # emit signals
     def render_signals(self):
         for signal in self.signals:
             signal_position = signal.position(self.time)
             Cube(self.app, pos=signal_position,
-                 scale=(0.1, 0.1, 0.1)).render()
+                 scale=(0.05, 0.05, 0.05)).render()
 
     def render_trajectories(self):
         for obj in self.objects:
