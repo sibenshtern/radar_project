@@ -1,6 +1,6 @@
 from objects.aircraft import Aircraft
 from logic.signal import Signal
-
+import math
 
 # class for detect collision in scene
 class CollisionDetector:
@@ -29,4 +29,6 @@ class CollisionDetector:
             if (abs(signal.position(time) - self.radar.receiver.position) <=
                     self.radar.receiver.radius):
                 return_signals.append(signal)
+                signal.power /= (abs(signal.position(time)) ** 2)
+                print(signal.init_power - signal.power * (abs(signal.position(time)) ** 4)) #/ (2 * math.pi ** 2))
         return return_signals

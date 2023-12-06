@@ -20,14 +20,13 @@ class Signal:
         self.speed: V = speed
         self.power_multiply = power_multiply
         self.reflected: bool = False
-        self.init_power = 150000 * 40 / (2 * math.pi) * 0.95
+        self.init_power = 150000 * 40 / (2 * math.pi) #* 0.95
         # init power
         self.power: float = self.init_power
 
     # update signal if it collision with object
     def update(self, new_direction: V, new_speed: V, new_time: int):
-        self.power = (self.power * (10 ** self.power_multiply) /
-                      (2 * math.pi * abs(self.position(new_time)) ** 2))
+        self.power = self.power / (2 * math.pi * abs(self.position(new_time)) ** 2) * 10
         self.direction = new_direction
         self.speed = new_speed
         self.departure_time = new_time

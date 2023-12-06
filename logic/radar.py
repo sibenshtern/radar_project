@@ -15,7 +15,7 @@ class Emitter:
                  characteristics: Optional[list] = None):
         self.range_of_action: int = range_of_action
         self.characteristics: list = characteristics
-        self.fineness_of_coating = 30
+        self.fineness_of_coating = 50
         self.radiation_power = 150000  # Watt
         self.transmit_antenna_gain = 40  # decibel
 

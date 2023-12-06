@@ -36,8 +36,14 @@ class Tracker:
 
         for signal in signals:
             r = (signal.init_power / signal.power) ** (1 / 4)
+            #print(r / abs(signal.position(time)))
+            t = 2 * r
+            cord = -signal.speed
+
             if self.get_signal_noise(signal, r, time) > 13:
-                coordinates.append(-signal.speed * r * 2)
+
+               # coordinates.append(abs(signal.direction) * signal.speed)
+                coordinates.append(t * cord)
 
         return coordinates
 
@@ -58,7 +64,7 @@ class Tracker:
             Cluster = cluster_assignments
             centers = shifted_points
 
-            print(x, y, z, centers)
+            #print(x, y, z, centers)
 
             fig = plt.figure()
             ax = fig.add_subplot(projection='3d')
@@ -69,6 +75,7 @@ class Tracker:
             fig.savefig(f"log/image_{current_time}.jpg")
 
         calculated = []
+        #print(len( mean_shift_result.shifted_points))
         for point in mean_shift_result.shifted_points:
             coordinate = Coordinates3D(point[0], point[1], point[2])
             calculated.append(coordinate)

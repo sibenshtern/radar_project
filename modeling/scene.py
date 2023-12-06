@@ -84,7 +84,7 @@ class Scene:
         if self.time % 10 == 0:
             self.signals.extend(self.radar.emitter.send_signals(self.time))
 
-        print(f"Tracked: {self.tracker.objects}")
+        #print(f"Tracked: {self.tracker.objects}")
 
     # emit signals
     def render_signals(self):
