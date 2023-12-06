@@ -17,7 +17,7 @@ M = TypeVar("M", maneuvers.ChangeHeight,
 class Aircraft:
 
     def __init__(self, name: str, position: C, speed: V, acceleration: V,
-                 radius: float = 5):
+                 radius: float = 1):
         self.name: str = name
         self.position: C = deepcopy(position)
         self.speed: V = deepcopy(speed)

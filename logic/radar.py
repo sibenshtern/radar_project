@@ -7,6 +7,7 @@ from logic.signal import Signal
 
 V = TypeVar('V', Vector, Vector3D, VectorGCS, VectorLECS)
 
+
 # сlass for emitter from radar
 class Emitter:
 
@@ -45,11 +46,11 @@ class Emitter:
 # сlass for receiver from radar
 class Receiver:
 
-    def __init__(self, radius: int, position: Coordinates,
+    def __init__(self, radius: float, position: Coordinates,
                  characteristics: Optional[list] = None):
         self.characteristics: list = characteristics
         self.received_signals: list = []
-        self.radius: int = radius
+        self.radius: float = radius
         self.position: Coordinates = position
 
 

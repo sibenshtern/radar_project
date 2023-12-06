@@ -12,15 +12,16 @@ EPSILON = 1
 REQUIRED_MINIMUM_TIME = 3 * 24
 STOP_TRACKING_TIME = 10 * 24
 
-PULSE_POWER_OF_EMITTED_SIGNAL = 150000 #w
+PULSE_POWER_OF_EMITTED_SIGNAL = 150000  # w
 TRANSMITTING_ANTENNA_GAINS = 40
 RECEIVING_ANTENNA_GAINS = 40
-WAVELENGTH = 0.035 # meters
-EPR_TARGET = 10 # meters ^ 2
+WAVELENGTH = 0.035  # meters
+EPR_TARGET = 10  # meters ^ 2
 TOTAL_LOSS_FACTOR = 1.5 * 1.5 * 1
-RECEIVER_NOISE_FACTOR = 5 # decibel
+RECEIVER_NOISE_FACTOR = 5  # decibel
 BOLTZMANN_CONSTANT = 1.38 * (10 ** -23)
-STANDART_TEMPERATURE = 290
+STANDARD_TEMPERATURE = 290
+
 
 class Tracker:
 
@@ -36,7 +37,7 @@ class Tracker:
         coordinates: list[C] = []
 
         for signal in signals:
-            r = (signal.init_power / signal.power ** 1 / 4)
+            r = (signal.init_power / signal.power) ** (1 / 2)
             if self.get_signal_noise(signal, r, time) > 13:
                 coordinates.append(-signal.speed * r)
                 print(signal.speed * r, signal.direction)
@@ -74,4 +75,4 @@ class Tracker:
             TRANSMITTING_ANTENNA_GAINS * RECEIVING_ANTENNA_GAINS * \
             (WAVELENGTH ** 2) * EPR_TARGET * TOTAL_LOSS_FACTOR / \
             (((4 * math.pi) ** 3) * radius ** 4 * RECEIVER_NOISE_FACTOR *
-             BOLTZMANN_CONSTANT * STANDART_TEMPERATURE)
+             BOLTZMANN_CONSTANT * STANDARD_TEMPERATURE)
