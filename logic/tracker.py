@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from objects import Tracked
 from coordinates.coordinates import Coordinates3D, CoordinatesGCS
 from logic.radar import Signal
+from logic.abfilter import ABFilter
 
 C = TypeVar('C', Coordinates3D, CoordinatesGCS)
 
@@ -30,20 +31,16 @@ class Tracker:
     def __init__(self):
         self.objects: list[Tracked] = []
         self.archive_objects: list[Tracked] = []
+        self.filter = ABFilter()
 
     def calculate_coordinate(self, signals: list[Signal], time) -> list[C]:
         coordinates: list[C] = []
 
         for signal in signals:
             r = (signal.init_power / signal.power) ** (1 / 4)
-            #print(r / abs(signal.position(time)))
-            t = 2 * r
-            cord = -signal.speed
 
             if self.get_signal_noise(signal, r, time) > 13:
-
-               # coordinates.append(abs(signal.direction) * signal.speed)
-                coordinates.append(t * cord)
+                coordinates.append(-signal.speed * r)
 
         return coordinates
 
@@ -51,45 +48,46 @@ class Tracker:
         coordinates: list[C] = self.calculate_coordinate(signals, current_time)
 
         ms = MeanShift()
-        mean_shift_result = ms.cluster(coordinates, kernel_bandwidth=1)
+        mean_shift_result = ms.cluster(coordinates, kernel_bandwidth=2)
 
-        if len(mean_shift_result.original_points):
-            original_points = mean_shift_result.original_points
-            shifted_points = mean_shift_result.shifted_points
-            cluster_assignments = mean_shift_result.cluster_ids
-
-            x = original_points[:, 0]
-            y = original_points[:, 1]
-            z = original_points[:, 2]
-            Cluster = cluster_assignments
-            centers = shifted_points
-
-            #print(x, y, z, centers)
-
-            fig = plt.figure()
-            ax = fig.add_subplot(projection='3d')
-            scatter = ax.scatter(x, y, z, c=Cluster, s=50)
-            for i, j, k in centers:
-                ax.scatter(i, j, k, s=50, c='red', marker='+')
-            plt.colorbar(scatter)
-            fig.savefig(f"log/image_{current_time}.jpg")
+        # if len(mean_shift_result.original_points):
+        #     original_points = mean_shift_result.original_points
+        #     shifted_points = mean_shift_result.shifted_points
+        #     cluster_assignments = mean_shift_result.cluster_ids
+        #
+        #     x = original_points[:, 0]
+        #     y = original_points[:, 1]
+        #     z = original_points[:, 2]
+        #     Cluster = cluster_assignments
+        #     centers = shifted_points
+        #
+        #     fig = plt.figure()
+        #     ax = fig.add_subplot(projection='3d')
+        #     scatter = ax.scatter(x, y, z, c=Cluster, s=50)
+        #     for i, j, k in centers:
+        #         ax.scatter(i, j, k, s=50, c='red', marker='+')
+        #     plt.colorbar(scatter)
+        #     fig.savefig(f"log/image_{current_time}.jpg")
 
         calculated = []
-        #print(len( mean_shift_result.shifted_points))
+        print(len(mean_shift_result.shifted_points))
         for point in mean_shift_result.shifted_points:
             coordinate = Coordinates3D(point[0], point[1], point[2])
-            calculated.append(coordinate)
+            # calculated.append(coordinate)
             for obj in self.objects:
                 if abs(obj.trajectory[-1] - coordinate) < EPSILON:
-                    obj.trajectory.append(coordinate)
+                    self.filter.filterAB(obj, coordinate, current_time + 1)
+                    # obj.trajectory.append(coordinate)
+                    calculated.append(obj.trajectory[-1])
                     obj.last_tracked_time = current_time
                     break
             else:
                 self.objects.append(Tracked(current_time))
-                self.objects[-1].trajectory.append(coordinate)
+                self.filter.filterAB(self.objects[-1], coordinate, current_time)
+                # self.objects[-1].trajectory.append(coordinate)
 
         self.update_objects(current_time)
-        return coordinates
+        return calculated
 
     def update_objects(self, current_time: int):
         for obj in self.objects:

@@ -1,6 +1,8 @@
 from objects.aircraft import Aircraft
 from logic.signal import Signal
 import math
+from copy import deepcopy
+
 
 # class for detect collision in scene
 class CollisionDetector:
@@ -15,7 +17,7 @@ class CollisionDetector:
             for obj in objects:
                 if (not signal.reflected) and abs(
                         signal.position(time) - obj.position) < obj.reflection_radius:
-                    signal.update(obj.position, -signal.speed, time)
+                    signal.update(deepcopy(obj.position), -deepcopy(signal.speed), time)
                 elif ((not signal.reflected) and
                       abs(signal.position(time))
                       >= self.radar.emitter.range_of_action):
@@ -26,9 +28,8 @@ class CollisionDetector:
     def scan_radar(self, signals: list[Signal], time):
         return_signals = []
         for signal in signals:
-            if (abs(signal.position(time) - self.radar.receiver.position) <=
-                    self.radar.receiver.radius):
+            if abs(signal._position(time) - self.radar.receiver.position) <= self.radar.receiver.radius and signal.reflected:
+                signal.power /= abs(signal.position(time)) ** 2
                 return_signals.append(signal)
-                signal.power /= (abs(signal.position(time)) ** 2)
-                print(signal.init_power - signal.power * (abs(signal.position(time)) ** 4)) #/ (2 * math.pi ** 2))
+                print(signal.power * (abs(signal.position(time)) ** 4) , signal.init_power)
         return return_signals

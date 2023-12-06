@@ -39,7 +39,6 @@ class ABFilter:
                     obj.filteredVelocityAB * (time - obj.last_tracked_time))
         obj.extrapolatedVelocityAB = obj.filteredVelocityAB
 
-
     def filter(self, obj: Tracked, position: Coordinates, time : int):
         obj.extrapolatedVelocityAB = (obj.trajectory[-1]-position) / (time - obj.last_tracked_time)
         obj.extrapolatedValueAB = position + obj.extrapolatedVelocityAB
