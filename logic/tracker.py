@@ -35,9 +35,9 @@ class Tracker:
         coordinates: list[C] = []
 
         for signal in signals:
-            r = (signal.init_power * 2 * math.pi / signal.power) ** (1 / 4)
+            r = (signal.init_power / signal.power) ** (1 / 4)
             if self.get_signal_noise(signal, r, time) > 13:
-                coordinates.append(-signal.speed * r)
+                coordinates.append(-signal.speed * r * 2s)
 
         return coordinates
 
