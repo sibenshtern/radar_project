@@ -73,8 +73,7 @@ class Scene:
 
         # if signals too small or far away
         for signal in self.signals:
-            if signal.power / abs(signal.position(self.time)) ** 2 < 70 or \
-                    abs(signal.position(self.time)) > self.radar.radius:
+            if self.tracker.get_signal_noise(signal, abs(signal.position(self.time)), self.time) < 13:
                 self.signals.remove(signal)
 
     # emit signals
