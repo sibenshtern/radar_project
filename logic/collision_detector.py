@@ -17,7 +17,7 @@ class CollisionDetector:
                         signal.position(time) - obj.position) < obj.reflection_radius:
                     signal.update(obj.position, -signal.speed, time)
                 elif ((not signal.reflected) and
-                      abs(signal.direction + signal.position(time))
+                      abs(signal.position(time))
                       >= self.radar.emitter.range_of_action):
                     return_signals.add(signal)
         return list(return_signals)
