@@ -28,6 +28,5 @@ class CollisionDetector:
         for signal in signals:
             if (abs(signal.position(time) - self.radar.receiver.position) <=
                     self.radar.receiver.radius):
-                signal.power = signal.power / (abs(signal.position(time)) ** 2)
                 return_signals.append(signal)
         return return_signals

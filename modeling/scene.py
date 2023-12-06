@@ -72,7 +72,7 @@ class Scene:
             self.signals.remove(signal)
 
         points = self.tracker.process_signals(signals_detection_radar, self.time)
-        print(len(points))
+        #print(len(points))
         for point in points:
             self.__special_points.append(Cube(self.app, pos=point, scale=(0.1, 0.1, 0.1)))
 
@@ -84,7 +84,7 @@ class Scene:
         if self.time % 10 == 0:
             self.signals.extend(self.radar.emitter.send_signals(self.time))
 
-        # print(f"Tracked: {self.tracker.objects}")
+        print(f"Tracked: {self.tracker.objects}")
 
     # emit signals
     def render_signals(self):

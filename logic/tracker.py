@@ -35,7 +35,7 @@ class Tracker:
         coordinates: list[C] = []
 
         for signal in signals:
-            r = (signal.init_power / signal.power) ** (1 / 4)
+            r = (signal.init_power * 2 * math.pi / signal.power) ** (1 / 4)
             if self.get_signal_noise(signal, r, time) > 13:
                 coordinates.append(-signal.speed * r)
 
@@ -45,7 +45,7 @@ class Tracker:
         coordinates: list[C] = self.calculate_coordinate(signals, current_time)
 
         ms = MeanShift()
-        mean_shift_result = ms.cluster(coordinates, kernel_bandwidth=10)
+        mean_shift_result = ms.cluster(coordinates, kernel_bandwidth=1)
 
         calculated = []
         for point in mean_shift_result.shifted_points:
