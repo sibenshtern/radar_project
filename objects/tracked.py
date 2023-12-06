@@ -12,9 +12,14 @@ class Tracked:
         self.trajectory: list[C] = []
         self.start_tracked_time: int = tracking_start_time
         self.last_tracked_time: int = tracking_start_time
-        self.filteredVelocity = Coordinates3D(0, 0, 0)
+
+        self.filteredVelocityAB = Coordinates3D(0, 0, 0)
+        self.extrapolatedValueAB = Coordinates3D(0, 0, 0)
+        self.extrapolatedVelocityAB = Coordinates3D(0, 0, 0)
+
         self.extrapolatedValue = Coordinates3D(0, 0, 0)
         self.extrapolatedVelocity = Coordinates3D(0, 0, 0)
+
 
     def add_position(self, position: C):
         self.trajectory.append(deepcopy(position))
