@@ -67,18 +67,17 @@ class Window:
                                   scale=(0.2, 0.2, 0.2),
                                   name=f'aircraft #{self.aircraft_index}')
                 )
-                self.aircraft_index += 1
             if event.type == pg.KEYDOWN and event.key == pg.K_v:
-                var = self.scene.objects[len(self.scene.objects) - 1]
+                var = self.scene.objects[self.aircraft_index]
                 var.change_speed()
             if event.type == pg.KEYDOWN and event.key == pg.K_c:
-                var = self.scene.objects[len(self.scene.objects) - 1]
+                var = self.scene.objects[self.aircraft_index]
                 var.centerfold()
             if event.type == pg.KEYDOWN and event.key == pg.K_h:
-                var = self.scene.objects[len(self.scene.objects) - 1]
+                var = self.scene.objects[self.aircraft_index]
                 var.change_height()
             if event.type == pg.KEYDOWN and event.key == pg.K_r:
-                var = self.scene.objects[len(self.scene.objects) - 1]
+                var = self.scene.objects[self.aircraft_index]
                 var.rotate()
             if event.type == pg.KEYDOWN and event.key == pg.K_i:
                 self.scene.show_signals = not self.scene.show_signals
@@ -90,6 +89,11 @@ class Window:
                 self.scene.show_trajectories = not self.scene.show_trajectories
             if event.type == pg.KEYDOWN and event.key == pg.K_m:
                 self.scene.is_simulation = not self.scene.is_simulation
+            if event.type == pg.KEYDOWN and event.key == pg.K_LEFT:
+                self.aircraft_index = (self.aircraft_index - 1) % len(self.scene.objects)
+            if event.type == pg.KEYDOWN and event.key == pg.K_RIGHT:
+                self.aircraft_index = (self.aircraft_index + 1) % len(self.scene.objects)
+
 
     def render(self):
         # clear framebuffer and color in
