@@ -20,6 +20,9 @@ class Tracked:
         self.extrapolatedValue = Coordinates3D(0, 0, 0)
         self.extrapolatedVelocity = Coordinates3D(0, 0, 0)
 
+        self.obj_name = None
+        self.mse = 0
+
     def add_position(self, position: C):
         self.trajectory.append(deepcopy(position))
 

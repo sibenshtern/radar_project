@@ -1,6 +1,7 @@
 import pygame as pg
 import moderngl as mgl
 import sys
+import os
 
 from modeling.model import AircraftModel
 from modeling.camera import Camera
@@ -94,7 +95,6 @@ class Window:
             if event.type == pg.KEYDOWN and event.key == pg.K_RIGHT:
                 self.aircraft_index = (self.aircraft_index + 1) % len(self.scene.objects)
 
-
     def render(self):
         # clear framebuffer and color in
         # specified normalized form: 0 ... 255 -> 0.0 ... 1.0
@@ -117,9 +117,10 @@ class Window:
             self.camera.update()
             self.scene.update()
             self.render()
-            self.delta_time = self.clock.tick(24)
+            self.delta_time = self.clock.tick(60)
 
 
 if __name__ == '__main__':
+    os.mkdir("log")
     app = Window()
     app.run()
