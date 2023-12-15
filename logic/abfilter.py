@@ -1,5 +1,5 @@
-from objects import Tracked
 from coordinates import Coordinates
+from objects import Tracked
 
 
 # class for alpha beta filter

@@ -1,9 +1,8 @@
 from collections import namedtuple
 from typing import TypeVar
 
-from coordinates.vectors import Vector3D, VectorGCS, VectorLECS
 from coordinates.coordinates import Coordinates3D, CoordinatesGCS
-import math
+from coordinates.vectors import Vector3D, VectorGCS, VectorLECS
 
 V = TypeVar('V', Vector3D, VectorGCS, VectorLECS)
 C = TypeVar('C', Coordinates3D, CoordinatesGCS)

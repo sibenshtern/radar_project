@@ -1,8 +1,8 @@
 import math
 from typing import Optional, TypeVar
 
-from coordinates.vectors import Vector, Vector3D, VectorGCS, VectorLECS
 from coordinates.coordinates import Coordinates, Coordinates3D
+from coordinates.vectors import Vector, Vector3D, VectorGCS, VectorLECS
 from logic.signal import Signal
 
 V = TypeVar('V', Vector, Vector3D, VectorGCS, VectorLECS)

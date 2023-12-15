@@ -1,12 +1,11 @@
-from typing import TypeVar
 from copy import deepcopy
 from datetime import datetime
+from typing import TypeVar
 
-from coordinates.vectors import Vector3D, VectorGCS, VectorLECS
-from coordinates.coordinates import Coordinates3D, CoordinatesGCS
-
-import objects.maneuvers as maneuvers
 import logger
+import objects.maneuvers as maneuvers
+from coordinates.coordinates import Coordinates3D, CoordinatesGCS
+from coordinates.vectors import Vector3D, VectorGCS, VectorLECS
 
 V = TypeVar("V", Vector3D, VectorGCS, VectorLECS)
 C = TypeVar("C", Coordinates3D, CoordinatesGCS)

@@ -1,5 +1,5 @@
-from typing import TypeVar
 from copy import deepcopy
+from typing import TypeVar
 
 from coordinates import Coordinates3D, CoordinatesGCS, CoordinatesLECS
 

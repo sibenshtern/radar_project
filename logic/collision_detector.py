@@ -1,7 +1,7 @@
-from objects.aircraft import Aircraft
-from logic.signal import Signal
-import math
 from copy import deepcopy
+
+from logic.signal import Signal
+from objects.aircraft import Aircraft
 
 
 # class for detect collision in scene

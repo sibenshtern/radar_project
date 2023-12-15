@@ -1,6 +1,7 @@
+import math
 from copy import deepcopy
 from typing import TypeVar
-import math
+
 import glm
 
 import objects.aircraft as aircraft
@@ -38,8 +39,6 @@ class CenterFold(Maneuver):
 
     def __init__(self, duration: int, obj: 'aircraft.Aircraft'):
         super().__init__(duration, obj)
-        self.center_point = (deepcopy(obj.position) + obj.speed.norm() *
-                             obj.centerfold_radius)
         self.angle = math.pi / duration
 
     def prepare(self):

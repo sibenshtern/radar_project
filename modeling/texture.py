@@ -1,15 +1,18 @@
-import pygame as pg
 import moderngl as mgl
+import pygame as pg
 
 
 class Texture:
     def __init__(self, ctx):
         self.ctx = ctx
         self.textures = {
-            0: self.get_texture(path='./textures/test.png'),
+            0: self.get_texture(path='./textures/img.png'),
             1: self.get_texture(path='./textures/grass_t.jpg'),
             'aircraft': self.get_texture(
                 path='./textures/Aircraft_Texture.png'
+            ),
+            'selected_aircraft': self.get_texture(
+                path='./textures/Aircraft_Texture_negate.png'
             ),
             'radar': self.get_texture(
                 path='./textures/img.png'
@@ -19,7 +22,6 @@ class Texture:
     def get_texture(self, path):
         texture = pg.image.load(path).convert()
         texture = pg.transform.flip(texture, flip_x=False, flip_y=True)
-        # texture.fill('red')
         texture = self.ctx.texture(size=texture.get_size(), components=3,
                                    data=pg.image.tostring(texture, 'RGB'))
         # mipmaps

@@ -1,5 +1,7 @@
 import sys
+
 import numpy as np
+
 import cluster.mean_shift_utils as ms_utils
 
 GROUP_DISTANCE_TOLERANCE = .1

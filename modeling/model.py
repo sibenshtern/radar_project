@@ -1,9 +1,8 @@
 import glm
 
-from objects.aircraft import Aircraft
-from coordinates.vectors import Vector3D
 from coordinates import Coordinates3D
-
+from coordinates.vectors import Vector3D
+from objects.aircraft import Aircraft
 from objects.maneuvers import CenterFold, ChangeSpeed, ChangeHeight
 
 
@@ -25,7 +24,7 @@ class BaseModel:
     def get_model_matrix(self):
         m_model = glm.mat4()
         # translate
-        m_model = glm.translate(m_model, tuple(self.position))
+        m_model = glm.translate(m_model, glm.vec3(*self.position))
         # rotate
         m_model = glm.rotate(m_model, self.rot.x, glm.vec3(1, 0, 0))
         m_model = glm.rotate(m_model, self.rot.y, glm.vec3(0, 1, 0))
@@ -116,22 +115,24 @@ class AircraftModel(BaseModel, Aircraft):
     def update(self):
         Aircraft.update(self)
 
-    def change_speed(self):
-        change_speed = ChangeSpeed(240, self, Vector3D(-0.1, 0.1, 0))
+    def change_speed(self, duration, new_speed):
+        new_speed = Vector3D(*new_speed)
+        change_speed = ChangeSpeed(duration, self, new_speed)
         self.make_maneuver(change_speed)
 
-    def centerfold(self):
-        centerfold = CenterFold(240, self)
+    def centerfold(self, duration):
+        centerfold = CenterFold(duration, self)
         self.make_maneuver(centerfold)
 
-    def change_height(self):
-        change_height = ChangeHeight(240, self, 15)
+    def change_height(self, duration, new_height):
+        change_height = ChangeHeight(duration, self, new_height)
         self.make_maneuver(change_height)
 
     def rotate(self):
         self.rot = glm.vec3(self.rot.x + 45, self.rot.y + 0, self.rot.z + 0)
 
     def render(self):
+        self.texture = self.app.mesh.texture.textures[self.tex_id]
         self.texture.use()
         self.program['m_model'].write(self.m_model)
         self.program['m_view'].write(self.app.camera.m_view)

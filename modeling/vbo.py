@@ -9,7 +9,7 @@ class VBO:
         self.vbos = {
             'cube': CubeVBO(ctx),
             'aircraft': AircraftVBO(ctx),
-            'radar': RadarVBO(ctx)
+            'radar': CubeVBO(ctx)
         }
 
     def destroy(self):
@@ -78,7 +78,7 @@ class CubeVBO(BaseVBO):
         vertex_data = np.hstack([normals, vertex_data])
         vertex_data = np.hstack([tex_coord_data, vertex_data])
 
-        return vertex_data / 2
+        return vertex_data
 
 
 class AircraftVBO(BaseVBO):
@@ -106,7 +106,7 @@ class RadarVBO(BaseVBO):
 
     def get_vertex_data(self):
         obj = pywavefront.Wavefront(
-            './3d_models/AirShip.obj',
+            './3d_models/Dish_LowPoly.obj',
             cache=True, parse=True
         ).materials.popitem()[1]
         vertex_data = obj.vertices

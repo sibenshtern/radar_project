@@ -1,6 +1,7 @@
 import numpy as np
-import cluster.point_grouper as pg
+
 import cluster.mean_shift_utils as ms_utils
+import cluster.point_grouper as pg
 
 MIN_DISTANCE = 0.000001
 

@@ -1,24 +1,24 @@
-import pygame as pg
-import moderngl as mgl
-import sys
 import os
+import sys
 
-from modeling.model import AircraftModel
+import moderngl as mgl
+import pygame as pg
+
+from logic.radar import Radar
 from modeling.camera import Camera
 from modeling.light import Light
 from modeling.mesh import Mesh
 from modeling.scene import Scene
 
-from logic.radar import Radar
-
 
 class Window:
-    def __init__(self, win_size=(1000, 800)):
+    def __init__(self, qt_app, win_size=(1000, 800)):
         # init pygame modules
         pg.init()
 
         # window size
         self.WIN_SIZE = win_size
+        self.qt_app = qt_app
 
         # set opengl attr
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MAJOR_VERSION, 3)
@@ -63,23 +63,13 @@ class Window:
                 pg.quit()
                 sys.exit()
             if event.type == pg.KEYDOWN and event.key == pg.K_o:
-                self.scene.add_object(
-                    AircraftModel(self, pos=(5, 0, 10), rot=(0, 0, -90),
-                                  scale=(0.2, 0.2, 0.2),
-                                  name=f'aircraft #{self.aircraft_index}')
-                )
+                self.qt_app.create_object_dialog()
             if event.type == pg.KEYDOWN and event.key == pg.K_v:
-                var = self.scene.objects[self.aircraft_index]
-                var.change_speed()
+                self.qt_app.open_change_speed()
             if event.type == pg.KEYDOWN and event.key == pg.K_c:
-                var = self.scene.objects[self.aircraft_index]
-                var.centerfold()
+                self.qt_app.open_centerfold()
             if event.type == pg.KEYDOWN and event.key == pg.K_h:
-                var = self.scene.objects[self.aircraft_index]
-                var.change_height()
-            if event.type == pg.KEYDOWN and event.key == pg.K_r:
-                var = self.scene.objects[self.aircraft_index]
-                var.rotate()
+                self.qt_app.open_change_height()
             if event.type == pg.KEYDOWN and event.key == pg.K_i:
                 self.scene.show_signals = not self.scene.show_signals
             if event.type == pg.KEYDOWN and event.key == pg.K_p:
@@ -89,11 +79,22 @@ class Window:
             if event.type == pg.KEYDOWN and event.key == pg.K_t:
                 self.scene.show_trajectories = not self.scene.show_trajectories
             if event.type == pg.KEYDOWN and event.key == pg.K_m:
-                self.scene.is_simulation = not self.scene.is_simulation
+                if self.scene.is_simulation:
+                    self.qt_app.stop_simulation()
+                else:
+                    self.qt_app.start_simulation()
             if event.type == pg.KEYDOWN and event.key == pg.K_LEFT:
-                self.aircraft_index = (self.aircraft_index - 1) % len(self.scene.objects)
+                self.scene.objects[self.aircraft_index].tex_id = 'aircraft'
+                self.aircraft_index = (self.aircraft_index - 1) % len(
+                    self.scene.objects)
+                self.scene.objects[
+                    self.aircraft_index].tex_id = 'selected_aircraft'
             if event.type == pg.KEYDOWN and event.key == pg.K_RIGHT:
-                self.aircraft_index = (self.aircraft_index + 1) % len(self.scene.objects)
+                self.scene.objects[self.aircraft_index].tex_id = 'aircraft'
+                self.aircraft_index = (self.aircraft_index + 1) % len(
+                    self.scene.objects)
+                self.scene.objects[
+                    self.aircraft_index].tex_id = 'selected_aircraft'
 
     def render(self):
         # clear framebuffer and color in
@@ -117,7 +118,7 @@ class Window:
             self.camera.update()
             self.scene.update()
             self.render()
-            self.delta_time = self.clock.tick(60)
+            self.delta_time = self.clock.tick(24)
 
 
 if __name__ == '__main__':

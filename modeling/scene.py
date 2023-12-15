@@ -1,10 +1,9 @@
-from modeling.model import Cube, RadarModel
-
-from logic.radar import Radar
-from objects.aircraft import Aircraft
-from logic.signal import Signal
 from logic.collision_detector import CollisionDetector
+from logic.radar import Radar
+from logic.signal import Signal
 from logic.tracker import Tracker
+from modeling.model import Cube, RadarModel
+from objects.aircraft import Aircraft
 
 
 class Scene:
@@ -39,11 +38,11 @@ class Scene:
     def load(self):
         app = self.app
 
-        # radar station`
-        self.radar_model = Cube(app, pos=(1, 0, -1))
+        # radar station
+        self.radar_model = Cube(app, pos=(0, 0, 0))
 
         # ground
-        n, s = 40, 1
+        n, s = 40, 2
         for x in range(-n, n, s):
             for y in range(-n, n, s):
                 self.floor.append(Cube(app, pos=(x, y, -2), tex_id=1))
@@ -72,7 +71,7 @@ class Scene:
             self.signals.remove(signal)
 
         points = self.tracker.process_signals(signals_detection_radar, self.time)
-        #print(len(points))
+
         for point in points:
             self.__special_points.append(Cube(self.app, pos=point, scale=(0.2, 0.2, 0.2)))
 
@@ -105,8 +104,11 @@ class Scene:
         for obj in self.floor:
             obj.render()
 
-        for point in self.__special_points:
-            point.render()
+        for obj in self.tracker.objects:
+            Cube(self.app, pos=obj.extrapolatedValueAB, scale=(0.1, 0.1, 0.1)).render()
+
+        # for point in self.__special_points:
+        #     point.render()
 
         # self.__special_points.clear()
 

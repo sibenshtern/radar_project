@@ -1,15 +1,13 @@
-from typing import TypeVar
 import math
+from typing import TypeVar
+
+import matplotlib.pyplot as plt
 
 from cluster.mean_shift import MeanShift, MeanShiftResult
-from cluster.mean_shift_utils import euclidean_dist
-import matplotlib.pyplot as plt
-import numpy as np
-
-from objects import Tracked
 from coordinates.coordinates import Coordinates3D, CoordinatesGCS
-from logic.radar import Signal
 from logic.abfilter import ABFilter
+from logic.radar import Signal
+from objects import Tracked
 
 C = TypeVar('C', Coordinates3D, CoordinatesGCS)
 
