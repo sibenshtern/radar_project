@@ -19,7 +19,7 @@ class Signal:
         self.speed: V = speed
         self.power_multiply = power_multiply
         self.reflected: bool = False
-        self.init_power = 150000 * 40 #* 0.95
+        self.init_power = 150000 * 40 * 0.95
         # init power
         self.power: float = self.init_power
 

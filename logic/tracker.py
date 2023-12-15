@@ -92,7 +92,7 @@ class Tracker:
                     obj.mse += abs(coordinate - obj.extrapolatedValueAB) ** 2
                     self.filter.filterAB(obj, coordinate, current_time + 1)
                     calculated.append(obj.trajectory[-1])
-                    obj.last_tracked_time = current_time
+                    obj.update_time(current_time)
                     break
             else:
                 self.objects.append(Tracked(current_time))

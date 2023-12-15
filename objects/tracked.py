@@ -1,5 +1,6 @@
 from copy import deepcopy
 from typing import TypeVar
+from datetime import datetime
 
 from coordinates import Coordinates3D, CoordinatesGCS, CoordinatesLECS
 
@@ -22,9 +23,18 @@ class Tracked:
 
         self.obj_name = None
         self.mse = 0
+        self.__filename = f"trajectories/'Tracked_{datetime.now()}_{self.start_tracked_time}.txt"
+        open(self.__filename, "w").close()
 
     def add_position(self, position: C):
         self.trajectory.append(deepcopy(position))
+
+    def update_time(self, new_time):
+        self.last_tracked_time = new_time
+        with open(self.__filename, "a") as file:
+            position = self.trajectory[-1].x, self.trajectory[-1].y, self.trajectory[-1].z
+            extr_position = self.extrapolatedValueAB.x, self.extrapolatedValueAB.y, self.extrapolatedValueAB.z
+            file.write(f"{position[0]},{position[1]},{position[2]},{extr_position[0]},{extr_position[1]},{extr_position[2]},{self.mse / len(self.trajectory)}\n")
 
     @property
     def tracked_time(self):
